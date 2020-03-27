@@ -76,5 +76,6 @@
         <!--Doug Lea 《Java并发编程设计原则与模式》Concurrent Programming in Java: Design Principles and Patterns-->
         <!--JUC的演进过程 http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/intro.html-->
         <module>cpj</module>
+        <module>Douglas-Schmidt-CS891</module>
     </modules>
 </project>
