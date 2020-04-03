@@ -1,4 +1,4 @@
-#concurrencystudy
+#concurrency-practice
 Java并发学习。
 
 有《Java并发编程实战》
