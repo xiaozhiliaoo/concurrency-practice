@@ -7,7 +7,7 @@ import com.lmax.disruptor.EventHandler;
  */
 
 /**
- * 可以理解为消费者  实际处理数据  也可以理解为观察者模型
+ * 可以理解为消费者  实际处理数据  也可以理解为观察者模型，业务逻辑
  */
 public class LongEventHandler  implements EventHandler<LongEvent> {
     public void onEvent(LongEvent longEvent, long l, boolean b) throws Exception {

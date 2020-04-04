@@ -5,7 +5,7 @@ package org.lili.base;
  */
 
 /**
- * 真正生产的对象  实际的消费数据
+ * 真正生产的对象，实际的消费数据,RingBuffer里面存储的
  */
 public class LongEvent {
     private long value;
