@@ -50,11 +50,18 @@ class Particle {
         y = initialY;
     }
 
+    /**
+     * 随机移动
+     */
     public synchronized void move() {
         x += rng.nextInt(10) - 5;
         y += rng.nextInt(20) - 10;
     }
 
+    /**
+     * 绘制自己
+     * @param g
+     */
     public void draw(Graphics g) {
         int lx, ly;
         synchronized (this) { lx = x; ly = y; }
