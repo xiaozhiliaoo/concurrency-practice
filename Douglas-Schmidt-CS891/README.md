@@ -1,5 +1,7 @@
 ### CS 891: Parallel Functional Programming with Java and Android
-http://www.dre.vanderbilt.edu/~schmidt/cs891f/
+**SITE:** http://www.dre.vanderbilt.edu/~schmidt/cs891f/
+
+**PLAYLIST:** https://www.youtube.com/watch?v=kADtRTxPaf8&list=PLZ9NgFYEMxp5NbV2NQ2moSX-V_Jv1aiGH
 
 https://github.com/douglascraigschmidt/LiveLessons
 
@@ -20,12 +22,13 @@ https://docs.oracle.com/javase/8/docs/api/index.html?java/util/concurrent/Comple
 CompletableFuture Framework!
 ForkJoinPool Framework!
 Executor Framework!
+Parallel stream Framework!
 
+ThreadPoolExecutor -> Runnable and Callable
+ForkJoinPool -> ForkJoinTask 也可以Runnable and Callable 但是不好
 
+ForkJoinPool，ForkJoinTask，RecursiveAction，RecursiveTask, key method，structure and functionality
 
-### CS 891: Concurrent Object-Oriented Programming in Java and Android
-http://www.dre.vanderbilt.edu/~schmidt/cs891s/
-
-
+ForkJoinPool:WorkQueue
 
 

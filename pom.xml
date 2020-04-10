@@ -80,5 +80,6 @@
         <module>juc</module>
         <module>doug-lea</module>
         <module>ArtOfMultiprocessorProgramming</module>
+        <module>Douglas-Schmidt-CS892</module>
     </modules>
 </project>
