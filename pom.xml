@@ -81,5 +81,6 @@
         <module>doug-lea</module>
         <module>ArtOfMultiprocessorProgramming</module>
         <module>Douglas-Schmidt-CS892</module>
+        <module>akka-practice</module>
     </modules>
 </project>
