@@ -29,6 +29,6 @@ ForkJoinPool -> ForkJoinTask 也可以Runnable and Callable 但是不好
 
 ForkJoinPool，ForkJoinTask，RecursiveAction，RecursiveTask, key method，structure and functionality
 
-ForkJoinPool:WorkQueue
+ForkJoinPool:WorkQueue,Work Steal
 
 
