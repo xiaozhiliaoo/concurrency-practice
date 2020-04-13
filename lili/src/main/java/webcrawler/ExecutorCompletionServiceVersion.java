@@ -15,7 +15,7 @@ import java.util.concurrent.*;
 /**
  * @author lili
  * @date 2020/4/9 16:21
- * @description
+ * @description https://www.nurkiewicz.com/2013/02/executorcompletionservice-in-practice.html
  * @notes
  */
 
