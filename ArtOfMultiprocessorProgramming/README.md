@@ -1,5 +1,9 @@
 ### The Art of Multiprocessor Programming
 
+https://booksite.elsevier.com/9780123705914/
+
+修订版：https://booksite.elsevier.com/9780123973375/
+
 https://booksite.elsevier.com/9780123705914/?ISBN=9780123705914
 
 互斥，同步，并发，生产者消费者问题?
