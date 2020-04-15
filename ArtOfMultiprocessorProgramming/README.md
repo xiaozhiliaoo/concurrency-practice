@@ -39,3 +39,7 @@ https://en.wikipedia.org/wiki/Synchronization_(computer_science)
 互斥是多处理器设计常见协作方式，任何互斥协议都会遇到：如果不能获取锁，该怎么做？ 1 尝试(自旋) 2 阻塞
 
 经典同步问题：1  生产者消费者问题(Bounded Buffer Problem) 2 读写问题 3  哲学家就餐问题
+
+https://en.wikipedia.org/wiki/Concurrent_data_structure
+
+Michael L. Scott : https://www.cs.rochester.edu/~scott/
