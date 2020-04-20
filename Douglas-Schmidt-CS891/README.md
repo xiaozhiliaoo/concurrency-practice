@@ -3,6 +3,8 @@
 
 **PLAYLIST:** https://www.youtube.com/watch?v=kADtRTxPaf8&list=PLZ9NgFYEMxp5NbV2NQ2moSX-V_Jv1aiGH
 
+**Speed of progress:** Java ExecutorCompletionService (Part 3)
+
 https://github.com/douglascraigschmidt/LiveLessons
 
 High Level -> Low Level
