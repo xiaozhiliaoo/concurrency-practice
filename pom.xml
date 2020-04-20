@@ -82,5 +82,6 @@
         <module>ArtOfMultiprocessorProgramming</module>
         <module>Douglas-Schmidt-CS892</module>
         <module>akka-practice</module>
+        <module>posa2</module>
     </modules>
 </project>

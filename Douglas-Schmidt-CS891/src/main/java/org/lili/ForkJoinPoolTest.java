@@ -16,5 +16,7 @@ public class ForkJoinPoolTest {
         System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", String.valueOf(numberOfThreads));
         System.out.println(ForkJoinPool.getCommonPoolParallelism());
 
+//        ForkJoinPool.managedBlock()
+
     }
 }
