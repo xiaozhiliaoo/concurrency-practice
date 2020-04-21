@@ -20,8 +20,7 @@ public class WordMatchSpliterator extends Spliterators.AbstractSpliterator<Searc
     /**
      * Constructor initializes the fields and super class.
      */
-    public WordMatchSpliterator(String input,
-                                String word) {
+    public WordMatchSpliterator(String input, String word) {
         super(Long.MAX_VALUE, ORDERED | NONNULL);
 
         // Create a regex that matches on a word boundary.

@@ -5,6 +5,8 @@
 
 **Speed of progress:** Java ExecutorCompletionService (Part 3)
 
+学习策略：先看PDF，代码，最后看视频，直接看视频看不懂且理解不深。
+
 https://github.com/douglascraigschmidt/LiveLessons
 
 High Level -> Low Level
@@ -35,3 +37,6 @@ ForkJoinPool:WorkQueue,Work Steal
 
 ThreadPool,ForkJoinPool,CompletableFuture
 
+Do not make 方法引用或者lamda有side effect
+
+并行流避免共享可变对象，

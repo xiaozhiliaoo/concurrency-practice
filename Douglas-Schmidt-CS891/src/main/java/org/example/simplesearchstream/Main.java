@@ -48,8 +48,7 @@ public class Main {
         WordSearcher wordSearcher = new WordSearcher(inputString);
 
         // Find all matching words.
-        List<SearchResults> results =
-                wordSearcher.findWords(wordsToFind);
+        List<SearchResults> results = wordSearcher.findWords(wordsToFind);
 
         // Print all the results;
         wordSearcher.printResults(results);

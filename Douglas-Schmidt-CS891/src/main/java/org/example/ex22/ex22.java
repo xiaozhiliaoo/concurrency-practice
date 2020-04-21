@@ -205,8 +205,7 @@ public class ex22 {
     private static void testParallelStream(List<BigFraction> fractionList,
                                            Function<BigFraction, BigFraction> op) {
         // Test big fraction operations using a parallel stream.
-        applyParallelStream(fractionList,
-                op);
+        applyParallelStream(fractionList, op);
     }
 
     /**
