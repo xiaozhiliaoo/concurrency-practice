@@ -14,8 +14,28 @@ import java.util.concurrent.ForkJoinPool;
 public class CompelteFutureTest {
     public static void main(String[] args) {
         CompelteFutureTest compelteFutureTest = new CompelteFutureTest();
-        compelteFutureTest.parllel();
+//        compelteFutureTest.parllel();
         //compelteFutureTest.parllel2();
+//        compelteFutureTest.parllel3();
+        compelteFutureTest.parllel4();
+    }
+
+    private void parllel3() {
+        CompletableFuture<Void> first = CompletableFuture.supplyAsync(this::first);
+        CompletableFuture<Void> two = CompletableFuture.supplyAsync(this::two);
+        CompletableFuture<Void> three = CompletableFuture.supplyAsync(this::three);
+        CompletableFuture<Void> four = CompletableFuture.supplyAsync(this::four);
+        CompletableFuture.allOf(first,two,three,four).join();
+        System.out.println("main done...");
+    }
+
+    private void parllel4() {
+        CompletableFuture<Void> first = CompletableFuture.supplyAsync(this::first);
+        CompletableFuture<Void> two = CompletableFuture.supplyAsync(this::two);
+        CompletableFuture<Void> three = CompletableFuture.supplyAsync(this::three);
+        CompletableFuture<Void> four = CompletableFuture.supplyAsync(this::four);
+        CompletableFuture.anyOf(first,two,three,four).join();
+        System.out.println("main done...");
     }
 
     public Void combine(Void a, Void b) {
