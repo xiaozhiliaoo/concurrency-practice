@@ -40,3 +40,7 @@ ThreadPool,ForkJoinPool,CompletableFuture
 Do not make 方法引用或者lamda有side effect
 
 并行流避免共享可变对象，
+
+commonforkjoinpool is 单例
+并行流底层是common fork join pool，但是看不到线程管理，本质等于thread.start,thread.join
+
