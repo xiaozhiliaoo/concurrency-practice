@@ -2,6 +2,9 @@ package net.jcip.examples;
 
 import net.jcip.annotations.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * UnsafeSequence
  *
@@ -17,5 +20,10 @@ public class UnsafeSequence {
      */
     public int getNext() {
         return value++;
+    }
+
+    public static void main(String[] args) {
+        List<Thread> threads = new ArrayList<>();
+
     }
 }

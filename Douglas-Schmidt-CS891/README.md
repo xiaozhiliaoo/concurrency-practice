@@ -44,3 +44,4 @@ Do not make 方法引用或者lamda有side effect
 commonforkjoinpool is 单例
 并行流底层是common fork join pool，但是看不到线程管理，本质等于thread.start,thread.join
 
+流和linux管道操作

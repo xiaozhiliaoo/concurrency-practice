@@ -21,5 +21,16 @@ public class myex12 {
         Stream.of(l1, l2, l3).flatMap(List::stream).forEach(System.out::println);
 
 //        StreamSupport.stream();
+        //没有终止操作，流没有做任何事
+        Stream.of("11", "22", "33").sorted();
+
+        Stream<String> stream = Stream.of("11", "22", "33", "44");
+        stream.forEach(System.out::println);
+        //流只能被用一次
+        stream.forEach(System.out::println);
+
+        //流的起点是data source
+
+
     }
 }
