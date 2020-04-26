@@ -14,8 +14,9 @@ public class NoVisibility {
 
     private static class ReaderThread extends Thread {
         public void run() {
-            while (!ready)
+            while (!ready) {
                 Thread.yield();
+            }
             System.out.println(number);
         }
     }
