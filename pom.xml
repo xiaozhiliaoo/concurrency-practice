@@ -84,5 +84,6 @@
         <module>akka-practice</module>
         <module>posa2</module>
         <module>concurrency-library</module>
+        <module>Concurrency-State-Models</module>
     </modules>
 </project>

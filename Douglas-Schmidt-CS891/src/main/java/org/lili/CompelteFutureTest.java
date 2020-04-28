@@ -1,5 +1,6 @@
 package org.lili;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -14,18 +15,34 @@ import java.util.concurrent.ForkJoinPool;
 public class CompelteFutureTest {
     public static void main(String[] args) {
         CompelteFutureTest compelteFutureTest = new CompelteFutureTest();
-//        compelteFutureTest.parllel();
+        compelteFutureTest.parllel();
         //compelteFutureTest.parllel2();
 //        compelteFutureTest.parllel3();
-        compelteFutureTest.parllel4();
+//        compelteFutureTest.parllel4();
     }
 
+    /**
+     * 一个任务失败其他任务全部回滚。parllel3
+     * 一个任务失败只取消自己，但是并不结束别的任务。
+     */
     private void parllel3() {
         CompletableFuture<Void> first = CompletableFuture.supplyAsync(this::first);
         CompletableFuture<Void> two = CompletableFuture.supplyAsync(this::two);
         CompletableFuture<Void> three = CompletableFuture.supplyAsync(this::three);
         CompletableFuture<Void> four = CompletableFuture.supplyAsync(this::four);
-        CompletableFuture.allOf(first,two,three,four).join();
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
+        futures.add(first);
+        futures.add(two);
+        futures.add(three);
+        futures.add(four);
+        CompletableFuture<?> failure = new CompletableFuture();
+        for (CompletableFuture<?> f : futures) {
+            f.exceptionally(ex -> {
+                failure.completeExceptionally(ex);
+                return null;
+            });
+        }
+        CompletableFuture.anyOf(failure, CompletableFuture.allOf(first, two, three, four)).join();
         System.out.println("main done...");
     }
 
@@ -34,7 +51,7 @@ public class CompelteFutureTest {
         CompletableFuture<Void> two = CompletableFuture.supplyAsync(this::two);
         CompletableFuture<Void> three = CompletableFuture.supplyAsync(this::three);
         CompletableFuture<Void> four = CompletableFuture.supplyAsync(this::four);
-        CompletableFuture.anyOf(first,two,three,four).join();
+        CompletableFuture.anyOf(first, two, three, four).join();
         System.out.println("main done...");
     }
 
@@ -64,7 +81,7 @@ public class CompelteFutureTest {
         System.out.println("fisrt start....");
         List<String> stringList = Arrays.asList("first1", "first2", "first3");
         try {
-            Thread.sleep(3000);
+            Thread.sleep(300000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -83,6 +100,8 @@ public class CompelteFutureTest {
 
     private Void three() {
         System.out.println("three start....");
+        //抛出异常
+        //int error = 7 / 0;
         List<String> stringList = Arrays.asList("three1", "three2", "three3");
         stringList.parallelStream().forEach(x -> System.out.println(x));
         System.out.println("three end....");

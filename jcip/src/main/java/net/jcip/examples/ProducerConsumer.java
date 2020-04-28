@@ -109,6 +109,6 @@ public class ProducerConsumer {
 
     public static void main(String[] args) {
 
-        startIndexing(new File[]{new File("D:\\AstahSpace")});
+        startIndexing(new File[]{new File("D:\\")});
     }
 }
