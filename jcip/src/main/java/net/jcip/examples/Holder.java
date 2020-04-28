@@ -15,7 +15,8 @@ public class Holder {
     }
 
     public void assertSanity() {
-        if (n != n)
+        if (n != n) {
             throw new AssertionError("This statement is false.");
+        }
     }
 }

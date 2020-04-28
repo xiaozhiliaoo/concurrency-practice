@@ -17,8 +17,7 @@ public class OneValueCache {
     private final BigInteger lastNumber;
     private final BigInteger[] lastFactors;
 
-    public OneValueCache(BigInteger i,
-                         BigInteger[] factors) {
+    public OneValueCache(BigInteger i, BigInteger[] factors) {
         lastNumber = i;
         lastFactors = Arrays.copyOf(factors, factors.length);
     }
