@@ -26,4 +26,17 @@ public class Memoizer2 <A, V> implements Computable<A, V> {
         }
         return result;
     }
+
+    public static void main(String[] args) throws InterruptedException {
+        Memoizer2<String, String> memoizer2 = new Memoizer2<>(new Computable<String, String>() {
+            @Override
+            public String compute(String arg) throws InterruptedException {
+                Thread.sleep(4000);
+                return "Compute It:"+ arg;
+            }
+        });
+
+        String memory2 = memoizer2.compute("Memory2");
+        System.out.println(memory2);
+    }
 }

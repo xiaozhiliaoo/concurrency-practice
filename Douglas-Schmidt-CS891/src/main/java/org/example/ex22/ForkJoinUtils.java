@@ -15,6 +15,8 @@ import static org.example.ex22.ExceptionUtils.rethrowFunction;
 public class ForkJoinUtils {
     private ForkJoinUtils() {}
 
+
+
     /**
      * Apply {@code op} to all items in the {@code list} using
      * iterative calls to fork-join methods.

@@ -39,4 +39,17 @@ public class Memoizer3<A, V> implements Computable<A, V> {
             throw LaunderThrowable.launderThrowable(e.getCause());
         }
     }
+
+    public static void main(String[] args) throws InterruptedException {
+        Memoizer3<String, String> Memoizer3 = new Memoizer3<>(new Computable<String, String>() {
+            @Override
+            public String compute(String arg) throws InterruptedException {
+                Thread.sleep(4000);
+                return "Compute It:"+ arg;
+            }
+        });
+
+        String memory2 = Memoizer3.compute("Memory3");
+        System.out.println(memory2);
+    }
 }

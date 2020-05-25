@@ -13,6 +13,7 @@ import java.util.concurrent.*;
 public class Preloader {
 
     ProductInfo loadProductInfo() throws DataLoadException {
+        System.out.println("load Product Info ...");
         return null;
     }
 
@@ -29,20 +30,30 @@ public class Preloader {
         thread.start();
     }
 
-    public ProductInfo get()
-            throws DataLoadException, InterruptedException {
+    public ProductInfo get() throws DataLoadException, InterruptedException {
         try {
             return future.get();
         } catch (ExecutionException e) {
             Throwable cause = e.getCause();
-            if (cause instanceof DataLoadException)
+            if (cause instanceof DataLoadException) {
                 throw (DataLoadException) cause;
-            else
+            } else {
                 throw LaunderThrowable.launderThrowable(cause);
+            }
         }
     }
 
     interface ProductInfo {
+    }
+
+    public static void main(String[] args) {
+        Preloader preloader = new Preloader();
+        preloader.start();
+        try {
+            ProductInfo productInfo = preloader.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 
