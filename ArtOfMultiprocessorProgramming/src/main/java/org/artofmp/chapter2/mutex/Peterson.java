@@ -1,17 +1,16 @@
+package org.artofmp.chapter2.mutex;
 /*
- * LockTwo.java
+ * Peterson.java
  *
- * Created on January 21, 2006, 9:31 AM
+ * Created on January 20, 2006, 10:36 PM
  *
  * From "Multiprocessor Synchronization and Concurrent Data Structures",
  * by Maurice Herlihy and Nir Shavit.
  * Copyright 2006 Elsevier Inc. All rights reserved.
  */
 
-package org.artofmp.chapter2;
-
 /**
- * Second attempt at a mutual exclusion lock.
+ * Peterson lock
  *
  * @author Maurice Herlihy
  */
@@ -20,18 +19,23 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.TimeUnit;
 
-public class LockTwo implements Lock {
+public class Peterson implements Lock {
+    private boolean[] flag = new boolean[2];
     private int victim;
 
-    // thread-local index, 0 or 1
     public void lock() {
         int i = ThreadID.get();
-        victim = i;                 // let the other go first
-        while (victim == i) {
-        }      // spin
+        int j = 1 - i;
+        flag[i] = true;
+        victim = i;
+        while (flag[j] && victim == i) {
+        }
+        ; // spin
     }
 
     public void unlock() {
+        int i = ThreadID.get();
+        flag[i] = false;
     }
 
     // Any class implementing Lock must provide these methods
@@ -52,6 +56,6 @@ public class LockTwo implements Lock {
     public void lockInterruptibly() throws InterruptedException {
         throw new UnsupportedOperationException();
     }
-
 }
+
 

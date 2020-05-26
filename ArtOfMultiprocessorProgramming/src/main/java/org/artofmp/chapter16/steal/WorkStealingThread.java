@@ -14,44 +14,49 @@ import java.util.Random;
 
 /**
  * Typical work-stealing thread.
+ *
  * @author Maurice Herlihy
  */
-public class WorkStealingThread {  
-  DEQueue[] queue;
-  int me;
-  Random random;  
-  public WorkStealingThread(DEQueue[] queue) {
-    this.queue = queue;
-    this.random = new Random();
-  }
-  public void run() {
-    int me = ThreadID.get();
-    Runnable task = queue[me].popBottom(); // pop first task
-    while (true) {
-      while (task != null) { // if there is a task
-        task.run();          // execute it and then
-        task = queue[me].popBottom(); // pop the next task
-      }
-      while (task == null) { // steal a task
-        Thread.yield();
-        int victim = random.nextInt() % queue.length;
-        if (!queue[victim].isEmpty()) {
-          task = queue[victim].popTop();
+public class WorkStealingThread {
+    DEQueue[] queue;
+    int me;
+    Random random;
+
+    public WorkStealingThread(DEQueue[] queue) {
+        this.queue = queue;
+        this.random = new Random();
+    }
+
+    public void run() {
+        int me = ThreadID.get();
+        Runnable task = queue[me].popBottom(); // pop first task
+        while (true) {
+            while (task != null) { // if there is a task
+                task.run();          // execute it and then
+                task = queue[me].popBottom(); // pop the next task
+            }
+            while (task == null) { // steal a task
+                Thread.yield();
+                int victim = random.nextInt() % queue.length;
+                if (!queue[victim].isEmpty()) {
+                    task = queue[victim].popTop();
+                }
+            }
         }
-      }
     }
-  }
-  
-  class DEQueue {
-    Runnable popBottom() {
-      return null;
+
+    class DEQueue {
+        Runnable popBottom() {
+            return null;
+        }
+
+        Runnable popTop() {
+            return null;
+        }
+
+        boolean isEmpty() {
+            return false;
+        }
     }
-    Runnable popTop() {
-      return null;
-    }
-    boolean isEmpty() {
-      return false;
-    }
-  }
-  
+
 }

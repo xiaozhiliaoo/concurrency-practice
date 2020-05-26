@@ -8,7 +8,7 @@
  * Copyright 2006 Elsevier Inc. All rights reserved.
  */
 
-package org.artofmp.chapter2;
+package org.artofmp.chapter2.mutex;
 
 /**
  * Assigns unique contiguous ids to threads.

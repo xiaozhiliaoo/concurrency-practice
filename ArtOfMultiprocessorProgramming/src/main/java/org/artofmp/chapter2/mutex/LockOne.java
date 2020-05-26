@@ -1,8 +1,8 @@
-package org.artofmp.chapter2;
+package org.artofmp.chapter2.mutex;
 /*
- * Peterson.java
+ * LockOne.java
  *
- * Created on January 20, 2006, 10:36 PM
+ * Created on January 21, 2006, 9:26 AM
  *
  * From "Multiprocessor Synchronization and Concurrent Data Structures",
  * by Maurice Herlihy and Nir Shavit.
@@ -10,27 +10,27 @@ package org.artofmp.chapter2;
  */
 
 /**
- * Peterson lock
+ * First attempt at a mutual exclusion lock.
  *
  * @author Maurice Herlihy
  */
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.Condition;
+import java.lang.ThreadLocal;
 import java.util.concurrent.TimeUnit;
 
-public class Peterson implements Lock {
+public class LockOne implements Lock {
     private boolean[] flag = new boolean[2];
-    private int victim;
+    // thread-local index, 0 or 1
+    private static ThreadLocal<Integer> myIndex;
 
     public void lock() {
         int i = ThreadID.get();
-        int j = 1 - i;
+        int j = i - 1;
         flag[i] = true;
-        victim = i;
-        while (flag[j] && victim == i) {
-        }
-        ; // spin
+        while (flag[j]) {
+        }          // wait
     }
 
     public void unlock() {
@@ -57,5 +57,3 @@ public class Peterson implements Lock {
         throw new UnsupportedOperationException();
     }
 }
-
-

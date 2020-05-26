@@ -12,53 +12,60 @@ package org.artofmp.chapter16.steal;
 
 /**
  * Matrix multiplication using threads.
+ *
  * @author Maurice Herlihy
  */
 class MMThread {
-  double[][] a, b, c;
-  int n;
-  public MMThread(double[][] a, double[][]  b) {
-    n = a.length;
-    this.a = a;
-    this.b = b;
-    this.c = new double[n][n];
-  }
-  void multiply() {
-    Worker[][] worker = new Worker[n][n];
-    // create one thread per matrix entry
-    for (int row = 0; row < n; row++) {
-      for (int col = 0; col < n; col++) {
-        worker[row][col] = new Worker(row,col);
-      }
+    double[][] a, b, c;
+    int n;
+
+    public MMThread(double[][] a, double[][] b) {
+        n = a.length;
+        this.a = a;
+        this.b = b;
+        this.c = new double[n][n];
     }
-    // start the threads
-    for (int row = 0; row < n; row++) {
-      for (int col = 0; col < n; col++) {
-        worker[row][col].start();
-      }
-    }
-    // wait for them to finish
-    for (int row = 0; row < n; row++) {
-      for (int col = 0; col < n; col++) {
-        try {
-          worker[row][col].join();
-        } catch (InterruptedException ex) {
-          ex.printStackTrace();
+
+    void multiply() {
+        Worker[][] worker = new Worker[n][n];
+        // create one thread per matrix entry
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < n; col++) {
+                worker[row][col] = new Worker(row, col);
+            }
         }
-      }
+        // start the threads
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < n; col++) {
+                worker[row][col].start();
+            }
+        }
+        // wait for them to finish
+        for (int row = 0; row < n; row++) {
+            for (int col = 0; col < n; col++) {
+                try {
+                    worker[row][col].join();
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
     }
-  }
-  class Worker extends Thread {
-    int row, col;
-    Worker(int row, int col) {
-      this.row = row; this.col = col;
+
+    class Worker extends Thread {
+        int row, col;
+
+        Worker(int row, int col) {
+            this.row = row;
+            this.col = col;
+        }
+
+        public void run() {
+            double dotProduct = 0.0;
+            for (int i = 0; i < n; i++) {
+                dotProduct += a[row][i] * b[i][col];
+            }
+            c[row][col] = dotProduct;
+        }
     }
-    public void run() {
-      double dotProduct = 0.0;
-      for (int i = 0; i < n; i++) {
-        dotProduct += a[row][i] * b[i][col];
-      }
-      c[row][col] = dotProduct;
-    }
-  }
 } 

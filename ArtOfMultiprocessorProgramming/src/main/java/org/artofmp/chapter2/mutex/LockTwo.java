@@ -1,41 +1,37 @@
-package org.artofmp.chapter2;
 /*
- * LockOne.java
+ * LockTwo.java
  *
- * Created on January 21, 2006, 9:26 AM
+ * Created on January 21, 2006, 9:31 AM
  *
  * From "Multiprocessor Synchronization and Concurrent Data Structures",
  * by Maurice Herlihy and Nir Shavit.
  * Copyright 2006 Elsevier Inc. All rights reserved.
  */
 
+package org.artofmp.chapter2.mutex;
+
 /**
- * First attempt at a mutual exclusion lock.
+ * Second attempt at a mutual exclusion lock.
  *
  * @author Maurice Herlihy
  */
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.Condition;
-import java.lang.ThreadLocal;
 import java.util.concurrent.TimeUnit;
 
-public class LockOne implements Lock {
-    private boolean[] flag = new boolean[2];
-    // thread-local index, 0 or 1
-    private static ThreadLocal<Integer> myIndex;
+public class LockTwo implements Lock {
+    private int victim;
 
+    // thread-local index, 0 or 1
     public void lock() {
         int i = ThreadID.get();
-        int j = i - 1;
-        flag[i] = true;
-        while (flag[j]) {
-        }          // wait
+        victim = i;                 // let the other go first
+        while (victim == i) {
+        }      // spin
     }
 
     public void unlock() {
-        int i = ThreadID.get();
-        flag[i] = false;
     }
 
     // Any class implementing Lock must provide these methods
@@ -56,4 +52,6 @@ public class LockOne implements Lock {
     public void lockInterruptibly() throws InterruptedException {
         throw new UnsupportedOperationException();
     }
+
 }
+

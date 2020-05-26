@@ -9,7 +9,7 @@
  *
  */
 
-package org.artofmp.chapter2;
+package org.artofmp.chapter2.mutex;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
