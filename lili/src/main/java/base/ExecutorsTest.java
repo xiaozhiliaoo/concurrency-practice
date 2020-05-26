@@ -11,46 +11,22 @@ import java.util.concurrent.ThreadFactory;
  * @notes
  */
 public class ExecutorsTest {
-
-    public static void print() {
-        System.out.println("do Print");
+    private static void printOne() {
+        System.out.println("do Print One");
         printTwo();
     }
-
     private static void printTwo() {
         System.out.println("do Print Two");
         printThree();
     }
-
     private static void printThree() {
-        System.out.println("do Print printThree");
+        System.out.println("do Print Three");
     }
-
     public static void main(String[] args) throws Exception {
-        Executors.callable(() -> {
-            try {
-                for (int i = 0; i < 5; i++) {
-                    System.out.println(i);
-                    Thread.sleep(40);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("eeee");
-        }).call();
-
-        ThreadFactory threadFactory = Executors.defaultThreadFactory();
-        threadFactory.newThread(()-> System.out.println("444")).start();
-
         ThreadGroup group = new ThreadGroup("thread-Group");
         Thread thread = new Thread(group, ()-> {
-            print();
+            printOne();
         },"myThread",1);
         thread.start();
-
-
-
     }
-
-
 }
