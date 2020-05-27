@@ -1,8 +1,6 @@
 package base;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.*;
 
 /**
  * @author lili
@@ -28,5 +26,12 @@ public class ExecutorsTest {
             printOne();
         },"myThread",1);
         thread.start();
+
+
+        ExecutorService service = Executors.newCachedThreadPool();
+//        service.shutdown();
+        //service.awaitTermination(1, TimeUnit.MILLISECONDS);
+        service.submit(()-> System.out.println(1));
+        System.out.println(service.isShutdown());
     }
 }

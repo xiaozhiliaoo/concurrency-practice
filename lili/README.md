@@ -16,6 +16,9 @@ FutureTask
 ForkJoinTask
 RecursiveTask
 RecursiveAction
+TimerTask
+ScheduledFutureTask
+
 
 SpringTask：
 

@@ -118,6 +118,9 @@ public class MatrixTask {
         return c;
     }
 
+    /**
+     * 矩阵乘法
+     */
     static class MulTask implements Runnable {
         Matrix a, b, c, lhs, rhs;
 
@@ -158,6 +161,9 @@ public class MatrixTask {
         }
     }
 
+    /**
+     * 矩阵加法
+     */
     static class AddTask implements Runnable {
         Matrix a, b, c;
 

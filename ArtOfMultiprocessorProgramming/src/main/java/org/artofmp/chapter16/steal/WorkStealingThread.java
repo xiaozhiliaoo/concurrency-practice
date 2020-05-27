@@ -45,6 +45,9 @@ public class WorkStealingThread {
         }
     }
 
+    /**
+     * Double-Ended Queue
+     */
     class DEQueue {
         Runnable popBottom() {
             return null;

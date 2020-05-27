@@ -8,6 +8,8 @@
 package org.artofmp.chapter2.mutex;
 
 import junit.framework.*;
+import org.artofmp.chapter3.LockFreeQueue;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**

@@ -11,6 +11,9 @@ package org.artofmp.chapter16.steal;
 
 import java.util.concurrent.atomic.AtomicStampedReference;
 
+/**
+ * Bounded Deque
+ */
 public class BDEQueue {
     Runnable[] tasks;
     volatile int bottom;
