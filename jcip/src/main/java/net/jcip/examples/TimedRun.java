@@ -23,9 +23,7 @@ public class TimedRun {
 
     private static final ExecutorService taskExec = Executors.newCachedThreadPool();
 
-    public static void timedRun(Runnable r,
-                                long timeout,
-                                TimeUnit unit) throws InterruptedException {
+    public static void timedRun(Runnable r, long timeout, TimeUnit unit) throws InterruptedException {
 
         Future<?> task = taskExec.submit(r);
         try {

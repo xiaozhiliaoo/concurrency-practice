@@ -34,7 +34,7 @@ public abstract class SocketUsingTask<T> implements CancellableTask<T> {
     }
 
     public RunnableFuture<T> newTask() {
-        return new FutureTask<T>(this) {
+        FutureTask<T> futureTask = new FutureTask<T>(this) {
             public boolean cancel(boolean mayInterruptIfRunning) {
                 try {
                     SocketUsingTask.this.cancel();
@@ -43,11 +43,16 @@ public abstract class SocketUsingTask<T> implements CancellableTask<T> {
                 }
             }
         };
+        return futureTask;
     }
 }
 
-
+/**
+ * 取消任务
+ * @param <T>
+ */
 interface CancellableTask<T> extends Callable<T> {
+
     void cancel();
 
     RunnableFuture<T> newTask();

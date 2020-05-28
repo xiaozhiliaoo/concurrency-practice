@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.*;
  * @author Brian Goetz and Tim Peierls
  */
 public class CheckForMail {
+
     public boolean checkMail(Set<String> hosts,
                              long timeout,
                              TimeUnit unit) throws InterruptedException {
@@ -40,5 +41,9 @@ public class CheckForMail {
     private boolean checkMail(String host) {
         // Check for mail
         return false;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

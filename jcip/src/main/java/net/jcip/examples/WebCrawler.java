@@ -2,6 +2,7 @@ package net.jcip.examples;
 
 import net.jcip.annotations.GuardedBy;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
@@ -96,5 +97,15 @@ public abstract class WebCrawler {
         public URL getPage() {
             return url;
         }
+    }
+
+    public static void main(String[] args) throws Exception {
+        WebCrawler webCrawler = new WebCrawler(new URL("www.baidu.com")) {
+            @Override
+            protected List<URL> processPage(URL url) {
+                return null;
+            }
+        };
+        webCrawler.start();
     }
 }

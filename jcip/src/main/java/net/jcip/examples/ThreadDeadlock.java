@@ -45,5 +45,10 @@ public class ThreadDeadlock {
         }
     }
 
+    public static void main(String[] args) {
+        ThreadDeadlock threadDeadlock = new ThreadDeadlock();
+
+    }
+
 
 }
