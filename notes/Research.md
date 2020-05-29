@@ -14,3 +14,5 @@ http://libcds.sourceforge.net/
 Java1.5 Monitor(管程) before：synchronized、 wait()、notify()、notifyAll() 
 
 动画：https://sourceforge.net/projects/javaconcurrenta/
+
+https://www.researchgate.net/profile/Doug_Lea
