@@ -10,6 +10,15 @@
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.webjars.bower/animo -->
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>animo</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>

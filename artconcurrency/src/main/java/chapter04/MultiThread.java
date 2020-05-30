@@ -1,8 +1,9 @@
 package chapter04;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadInfo;
-import java.lang.management.ThreadMXBean;
+import javax.management.openmbean.CompositeData;
+import javax.management.openmbean.CompositeDataSupport;
+import java.lang.management.*;
+import java.util.List;
 
 /**
  * 6-1
@@ -18,5 +19,23 @@ public class MultiThread {
         for (ThreadInfo threadInfo : threadInfos) {
             System.out.println("[" + threadInfo.getThreadId() + "] " + threadInfo.getThreadName());
         }
+
+        List<MemoryPoolMXBean> memoryPoolMXBeans = ManagementFactory.getMemoryPoolMXBeans();
+        for (MemoryPoolMXBean memoryPoolMXBean : memoryPoolMXBeans) {
+            System.out.println(memoryPoolMXBean.getName() + " ===" + memoryPoolMXBean.getCollectionUsage());
+        }
+
+        MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+        MemoryUsage heapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
+        System.out.println(heapMemoryUsage);
+
+
+        OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+        System.out.println(operatingSystemMXBean.getArch());
+        System.out.println(operatingSystemMXBean.getAvailableProcessors());
+        System.out.println(operatingSystemMXBean.getSystemLoadAverage());
+
+
+
     }
 }

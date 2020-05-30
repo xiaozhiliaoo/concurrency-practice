@@ -38,7 +38,7 @@ public class Terminator {
 
     public static void main(String[] args) {
 
-        Thread thread = new Thread(() -> {
+        Thread threadA = new Thread(() -> {
             Thread thread1 = Thread.currentThread();
             try {
                 boolean interrupted = thread1.isInterrupted();
@@ -71,19 +71,23 @@ public class Terminator {
             }
         });
 
-        thread.start();
+        // A线程开始
+        threadA.start();
 
 
-        new Thread(() -> {
+        Thread threadB = new Thread(() -> {
             for (int i = 0; i < 1000; i++) {
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Terminator.terminate(thread, 1000);
+                //B线程中断A线程
+                Terminator.terminate(threadA, 1000);
             }
-        }).start();
+        });
+        //B线程开始
+        threadB.start();
 
 
     }
