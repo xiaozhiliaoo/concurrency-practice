@@ -16,16 +16,24 @@ import java.util.concurrent.TransferQueue;
 public class TransferQueueTest {
     @Test
     public void test() throws InterruptedException {
-        TransferQueue transferQueue = new LinkedTransferQueue();
+        TransferQueue<Integer> transferQueue = new LinkedTransferQueue();
 
-        for (int i = 0; i < 10000; i++) {
+        new Thread(() -> {
+            for (int i = 0; i < 15; i++) {
+                try {
+                    transferQueue.transfer(i);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 
-            transferQueue.transfer(i);
-        }
 
-        new Thread(()->{
+        new Thread(() -> {
             try {
-                System.out.println(transferQueue.take());
+                while (true) {
+                    System.out.println(transferQueue.take());
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

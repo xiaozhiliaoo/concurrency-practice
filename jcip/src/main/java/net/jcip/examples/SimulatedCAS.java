@@ -12,7 +12,8 @@ import net.jcip.annotations.*;
 
 @ThreadSafe
 public class SimulatedCAS {
-    @GuardedBy("this") private int value;
+    @GuardedBy("this")
+    private int value;
 
     public synchronized int get() {
         return value;
@@ -28,7 +29,6 @@ public class SimulatedCAS {
 
     public synchronized boolean compareAndSet(int expectedValue,
                                               int newValue) {
-        return (expectedValue
-                == compareAndSwap(expectedValue, newValue));
+        return (expectedValue == compareAndSwap(expectedValue, newValue));
     }
 }

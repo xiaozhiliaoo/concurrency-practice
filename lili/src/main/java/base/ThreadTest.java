@@ -10,14 +10,26 @@ import java.util.concurrent.locks.LockSupport;
  * @notes
  */
 public class ThreadTest {
-    public static void main(String[] args) throws InterruptedException {
-        Object o = new Object();
-        o.wait();
-        //Thread.currentThread().suspend();
-        Thread thread = Thread.currentThread();
-        Thread.dumpStack();
-        System.out.println(thread.countStackFrames());
-        LockSupport.park();
-        LockSupport.unpark(thread);
+    public static void main(String[] args) {
+//        Object o = new Object();
+//        o.wait();
+//        //Thread.currentThread().suspend();
+//        Thread thread = Thread.currentThread();
+//        Thread.dumpStack();
+//        System.out.println(thread.countStackFrames());
+//        LockSupport.park();
+//        LockSupport.unpark(thread);
+        Thread thread = new Thread();
+        System.out.println(thread.getName());
+        thread.start();
+
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Thread.currentThread().interrupt();
     }
 }

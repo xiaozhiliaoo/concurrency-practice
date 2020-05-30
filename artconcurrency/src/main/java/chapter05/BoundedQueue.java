@@ -11,12 +11,12 @@ import java.util.concurrent.locks.ReentrantLock;
  * 10-21
  */
 public class BoundedQueue<T> {
-    private Object[]  items;
+    private Object[] items;
     // 添加的下标，删除的下标和数组当前数量
-    private int       addIndex, removeIndex, count;
-    private Lock      lock     = new ReentrantLock();
+    private int addIndex, removeIndex, count;
+    private Lock lock = new ReentrantLock();
     private Condition notEmpty = lock.newCondition();
-    private Condition notFull  = lock.newCondition();
+    private Condition notFull = lock.newCondition();
 
     public BoundedQueue(int size) {
         items = new Object[size];

@@ -103,4 +103,16 @@ public class Mutex implements Lock, java.io.Serializable {
     }
 
 
+    public static void main(String[] args) {
+        Mutex mutex = new Mutex();
+        //不可重入锁
+        mutex.lock();
+        System.out.println("lock1");
+        mutex.lock();
+        System.out.println("lock2");
+        mutex.lock();
+        System.out.println("lock3");
+        mutex.lock();
+    }
+
 }

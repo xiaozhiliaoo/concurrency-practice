@@ -22,6 +22,7 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 public class LockFreeQueueRecycle<T> {
     private AtomicStampedReference<Node> head;
     private AtomicStampedReference<Node> tail;
+    //空闲列表
     ThreadLocal<Node> freeList = new ThreadLocal<Node>() {
         protected Node initialValue() {
             return null;

@@ -30,6 +30,13 @@ public class GrumpyBoundedBuffer<V> extends BaseBoundedBuffer<V> {
             throw new BufferEmptyException();
         return doTake();
     }
+
+    public static void main(String[] args) {
+        GrumpyBoundedBuffer<String> boundedBuffer  = new GrumpyBoundedBuffer<>(5);
+        for (int i = 0; i < 10; i++) {
+            boundedBuffer.put("we");
+        }
+    }
 }
 
 class ExampleUsage {
@@ -48,6 +55,8 @@ class ExampleUsage {
         }
     }
 }
+
+
 
 class BufferFullException extends RuntimeException {
 }
