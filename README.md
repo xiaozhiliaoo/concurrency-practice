@@ -10,9 +10,9 @@
 
 **应用层**主要是仓库示例。
 
-汇总以下书的示例：
+## 书本：
 
-有《Java并发编程实战》- Brain Goetz，JSR166专家组成员的书，我认为并发最好的书 Site: https://jcip.net/listings
+《Java并发编程实战》- Brain Goetz，JSR166专家组成员的书，我认为并发最好的书 Site: https://jcip.net/listings
 
 《Java并发编程设计原则与模式》 -  Doug Lea 看作者就知道含金量，毋庸置疑很难懂
 
@@ -35,3 +35,13 @@
 《Java高并发程序设计》- 葛一鸣 等书源代码以及自己的小例子。 实战很强，并发方方面面都设计
 
 《Java并发实现原理-JDK源码剖析》 - 偏原理
+
+## 视频
+
+**Doug Lea**：Engineering Concurrent Library Components  https://www.youtube.com/watch?v=sq0MX3fHkro
+
+**Douglas Schmidt**：Java Concurrency  https://www.youtube.com/c/DouglasSchmidt/playlists
+
+**Brian Goetz**：Beyond ByteBuffers  https://www.youtube.com/watch?v=iwSCtxMbBLI&t=713s
+
+**Brian Goetz**：From Concurrent to Parallel https://www.youtube.com/watch?v=tjnGtDbU8l8
