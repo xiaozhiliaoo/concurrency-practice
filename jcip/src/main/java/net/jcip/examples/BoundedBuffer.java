@@ -29,6 +29,7 @@ public class BoundedBuffer<V> extends BaseBoundedBuffer<V> {
      */
     // BLOCKS-UNTIL: not-full
     public synchronized void put(V v) throws InterruptedException {
+        Thread.sleep(5000000);
         while (isFull()) { //这里的while不是if
             //释放锁，挂起当前线程，等待别人通知。释放锁这么理解：如果没有释放锁，那么别的线程将进入不了方法
             //也就不会等待
@@ -80,28 +81,51 @@ public class BoundedBuffer<V> extends BaseBoundedBuffer<V> {
 
     public static void main(String[] args) {
         BoundedBuffer<String> boundedBuffer = new BoundedBuffer<>(3);
-
         //一个线程 boundedBuffer.put("11");
         // boundedBuffer.put("22");
         // boundedBuffer.take(); 都是同一把锁
-        new Thread(() -> {
+        Thread thread = new Thread(() -> {
             try {
                 boundedBuffer.put("11");
                 boundedBuffer.put("22");
                 boundedBuffer.put("33");
-                boundedBuffer.put("44");
+                //让线程waiting..不退出
+                //boundedBuffer.put("44");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }).start();
+        });
+        thread.setName("firstThread");
+        thread.start();
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        new Thread(() -> {
+        Thread thread2 = new Thread(() -> {
             try {
-                System.out.println("take now:" + boundedBuffer.take());
+                boundedBuffer.put("111");
+                boundedBuffer.put("222");
+                boundedBuffer.put("333");
+//                boundedBuffer.put("444");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }).start();
+        });
+        thread2.setName("secondThread");
+        thread2.start();
+
+
+
+
+//        new Thread(() -> {
+//            try {
+//                System.out.println("take now:" + boundedBuffer.take());
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }).start();
     }
 }
