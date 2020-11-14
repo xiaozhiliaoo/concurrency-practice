@@ -1,7 +1,7 @@
 package org.example.ex12;
 
 
-import com.sun.istack.internal.NotNull;
+
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -45,7 +45,7 @@ public class ex12  {
      * rest lowercase.  Note that this is a "pure" function whose
      * return value is only determined by its input.
      */
-    private String capitalize(@NotNull String s) {
+    private String capitalize(String s) {
         if (s.length() == 0)
             return s;
         return s

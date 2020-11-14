@@ -6,19 +6,12 @@
         <artifactId>concurrency-practice</artifactId>
         <groupId>org.lili</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jcip</artifactId>
+    <artifactId>JavaConcurrencyPatternInAction</artifactId>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/net.jcip/jcip-annotations -->
-        <dependency>
-            <groupId>net.jcip</groupId>
-            <artifactId>jcip-annotations</artifactId>
-            <version>1.0</version>
-        </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
         <dependency>
@@ -30,7 +23,10 @@
 
 
 
+
+
     </dependencies>
+
 
 
     <build>

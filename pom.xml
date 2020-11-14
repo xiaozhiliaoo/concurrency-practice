@@ -32,20 +32,20 @@
             <version>0.7.0</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.ebmwebsourcing.easycommons/easycommons-thread -->
+     <!--   &lt;!&ndash; https://mvnrepository.com/artifact/com.ebmwebsourcing.easycommons/easycommons-thread &ndash;&gt;
         <dependency>
             <groupId>com.ebmwebsourcing.easycommons</groupId>
             <artifactId>easycommons-thread</artifactId>
             <version>v2013-03-11</version>
             <scope>test</scope>
-        </dependency>
+        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/org.ow2.easycommons/easycommons-thread -->
-        <dependency>
+       <!-- <dependency>
             <groupId>org.ow2.easycommons</groupId>
             <artifactId>easycommons-thread</artifactId>
             <version>1.3.0</version>
-        </dependency>
+        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/pallet-thread/pallet-thread -->
         <dependency>
@@ -180,5 +180,6 @@
         <module>posa2</module>
         <module>concurrency-library</module>
         <module>Concurrency-State-Models</module>
+        <module>JavaConcurrencyPatternInAction</module>
     </modules>
 </project>
