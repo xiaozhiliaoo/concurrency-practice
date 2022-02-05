@@ -4,100 +4,62 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.lili</groupId>
+    <groupId>org.lili.concurrency</groupId>
     <artifactId>concurrency-practice</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
 
-        <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
             <version>10.0.0.beta0</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.tinygroup/threadpool -->
         <dependency>
             <groupId>org.tinygroup</groupId>
             <artifactId>threadpool</artifactId>
             <version>0.0.4</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/net.uncontended/precipice-threadpool -->
         <dependency>
             <groupId>net.uncontended</groupId>
             <artifactId>precipice-threadpool</artifactId>
             <version>0.7.0</version>
         </dependency>
 
-     <!--   &lt;!&ndash; https://mvnrepository.com/artifact/com.ebmwebsourcing.easycommons/easycommons-thread &ndash;&gt;
-        <dependency>
-            <groupId>com.ebmwebsourcing.easycommons</groupId>
-            <artifactId>easycommons-thread</artifactId>
-            <version>v2013-03-11</version>
-            <scope>test</scope>
-        </dependency>-->
 
-        <!-- https://mvnrepository.com/artifact/org.ow2.easycommons/easycommons-thread -->
-       <!-- <dependency>
-            <groupId>org.ow2.easycommons</groupId>
-            <artifactId>easycommons-thread</artifactId>
-            <version>1.3.0</version>
-        </dependency>-->
-
-        <!-- https://mvnrepository.com/artifact/pallet-thread/pallet-thread -->
-        <dependency>
-            <groupId>pallet-thread</groupId>
-            <artifactId>pallet-thread</artifactId>
-            <version>0.1.0</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.alibaba/transmittable-thread-local -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>
             <version>2.11.4</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.opendaylight.controller/threadpool-config-api -->
         <dependency>
             <groupId>org.opendaylight.controller</groupId>
             <artifactId>threadpool-config-api</artifactId>
             <version>0.13.0</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.alibaba.middleware/metrics-threadpool -->
         <dependency>
             <groupId>com.alibaba.middleware</groupId>
             <artifactId>metrics-threadpool</artifactId>
             <version>2.0.6</version>
         </dependency>
 
-
-
-
-
-
-
-
-        <!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-core -->
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
             <version>10.0.2</version>
         </dependency>
 
-
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.10</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-collections4 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
@@ -146,7 +108,7 @@
         <dependency>
             <groupId>com.lmax</groupId>
             <artifactId>disruptor</artifactId>
-            <version>3.3.6</version>
+            <version>3.4.4</version>
         </dependency>
 
     </dependencies>

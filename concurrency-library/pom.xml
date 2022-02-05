@@ -27,13 +27,7 @@
             <version>3.1</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.atlassian.util.concurrent/atlassian-util-concurrent -->
-        <dependency>
-            <groupId>com.atlassian.util.concurrent</groupId>
-            <artifactId>atlassian-util-concurrent</artifactId>
-            <version>3.0.0</version>
-            <scope>provided</scope>
-        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/org.jctools/jctools-core -->
         <dependency>
