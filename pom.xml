@@ -9,109 +9,6 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <dependencies>
-
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
-            <version>10.0.0.beta0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.tinygroup</groupId>
-            <artifactId>threadpool</artifactId>
-            <version>0.0.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.uncontended</groupId>
-            <artifactId>precipice-threadpool</artifactId>
-            <version>0.7.0</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>transmittable-thread-local</artifactId>
-            <version>2.11.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.opendaylight.controller</groupId>
-            <artifactId>threadpool-config-api</artifactId>
-            <version>0.13.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba.middleware</groupId>
-            <artifactId>metrics-threadpool</artifactId>
-            <version>2.0.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-core</artifactId>
-            <version>10.0.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.4</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>3.8.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.hsqldb</groupId>
-            <artifactId>hsqldb</artifactId>
-            <version>2.6.1</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.jcip</groupId>
-            <artifactId>jcip-annotations</artifactId>
-            <version>1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.lmax</groupId>
-            <artifactId>disruptor</artifactId>
-            <version>3.4.4</version>
-        </dependency>
-
-    </dependencies>
 
     <modules>
         <!--张振华《Java并发编程从入门到精通》-->
@@ -120,28 +17,144 @@
         <module>geyiming</module>
         <!--Brian Goetz 《Java Concurrency in Practice》-->
         <module>jcip</module>
-        <!--高洪岩 《Java多线程编程核心技术》-->
-        <module>multithread</module>
         <!--方腾飞《Java并发编程艺术》-->
         <module>artconcurrency</module>
-        <!--黄文海《Java多线程编程实战指南》设计模式篇  包名重新组织了下 源代码包名太长 -->
-        <module>threaddp</module>
-        <!--disruptor框架学习-->
-        <module>disruptor</module>
-        <!--我的工具类-->
-        <module>lili</module>
         <!--Doug Lea 《Java并发编程设计原则与模式》Concurrent Programming in Java: Design Principles and Patterns-->
         <!--JUC的演进过程 http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/intro.html-->
         <module>cpj</module>
         <module>Douglas-Schmidt-CS891</module>
-        <module>juc</module>
-        <module>doug-lea</module>
-        <module>ArtOfMultiprocessorProgramming</module>
         <module>Douglas-Schmidt-CS892</module>
-        <module>akka-practice</module>
+        <module>ArtOfMultiprocessorProgramming</module>
         <module>posa2</module>
         <module>concurrency-library</module>
         <module>Concurrency-State-Models</module>
+        <!--黄文海《Java多线程编程实战指南》设计模式篇  包名重新组织了下 源代码包名太长 -->
         <module>JavaConcurrencyPatternInAction</module>
     </modules>
+
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <version>10.0.0.beta0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.tinygroup</groupId>
+                <artifactId>threadpool</artifactId>
+                <version>0.0.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.uncontended</groupId>
+                <artifactId>precipice-threadpool</artifactId>
+                <version>0.7.0</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>2.11.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.opendaylight.controller</groupId>
+                <artifactId>threadpool-config-api</artifactId>
+                <version>0.13.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.middleware</groupId>
+                <artifactId>metrics-threadpool</artifactId>
+                <version>2.0.6</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-core</artifactId>
+                <version>10.0.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.12.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>3.8.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>2.6.1</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>4.0.1</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.17</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.jcip</groupId>
+                <artifactId>jcip-annotations</artifactId>
+                <version>1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.13.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>3.4.4</version>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
+
+
+    <build>
+        <finalName>concurrency-practice</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
