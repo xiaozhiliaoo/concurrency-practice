@@ -14,8 +14,8 @@ import junit.framework.TestCase;
  */
 public class PutTakeTest extends TestCase {
     protected static final ExecutorService pool = Executors.newCachedThreadPool();
-    protected CyclicBarrier barrier;
-    protected final SemaphoreBoundedBuffer<Integer> bb;
+     CyclicBarrier barrier;
+     final SemaphoreBoundedBuffer<Integer> bb;
     protected final int nTrials, nPairs;
     protected final AtomicInteger putSum = new AtomicInteger(0);
     protected final AtomicInteger takeSum = new AtomicInteger(0);

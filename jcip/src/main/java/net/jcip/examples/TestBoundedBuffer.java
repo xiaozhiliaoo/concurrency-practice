@@ -51,7 +51,7 @@ public class TestBoundedBuffer extends TestCase {
         }
     }
 
-    class Big {
+    public class Big {
         double[] data = new double[100000];
     }
 
