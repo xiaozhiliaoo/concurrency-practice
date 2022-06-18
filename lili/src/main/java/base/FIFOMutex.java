@@ -25,6 +25,7 @@ public class FIFOMutex {
         // Block while not first in queue or cannot acquire lock
         while (waiters.peek() != current || !locked.compareAndSet(false, true)) {
             LockSupport.park(this);
+            System.out.println("park me....");
             if (Thread.interrupted()) // ignore interrupts while waiting
                 wasInterrupted = true;
         }
@@ -37,5 +38,13 @@ public class FIFOMutex {
     public void unlock() {
         locked.set(false);
         LockSupport.unpark(waiters.peek());
+    }
+
+
+    public static void main(String[] args) {
+        FIFOMutex f = new FIFOMutex();
+        f.lock();
+        System.out.println("11111");
+        f.unlock();
     }
 }
