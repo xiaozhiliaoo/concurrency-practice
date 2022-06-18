@@ -1,4 +1,4 @@
-package chapter3;
+package chapter2;
 
 import EDU.oswego.cs.dl.util.concurrent.Sync;
 
