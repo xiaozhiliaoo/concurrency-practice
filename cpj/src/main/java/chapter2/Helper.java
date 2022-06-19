@@ -5,9 +5,9 @@ package chapter2;
  * @date 2022/6/19 1:51
  */
 public class Helper {  // Dummy standin for referenced generic "Helper" classes
-    void handle() {
+    public void handle() {
     }
 
-    void operation() {
+    public void operation() {
     }
 }

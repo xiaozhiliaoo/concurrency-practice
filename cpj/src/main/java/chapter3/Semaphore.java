@@ -10,7 +10,7 @@ import EDU.oswego.cs.dl.util.concurrent.Sync;
  */
 public class Semaphore implements Sync {
 
-    protected long permits; // current number of available permits
+     long permits; // current number of available permits
 
     public Semaphore(long initialPermits) {
         permits = initialPermits;

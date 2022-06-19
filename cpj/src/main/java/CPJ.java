@@ -1,4 +1,5 @@
 /**
+ * 原书代码
  * @packgeName: PACKAGE_NAME
  * @ClassName: CPJ
  * @copyright: CopyLeft
@@ -8,7 +9,6 @@
  * @version: 1.0
  * @since: JDK 1.8
  */
-
 /*
   Sample code file for CPJ2e.
 
@@ -21,9 +21,11 @@
 
   They are presented in page-number order.
 
+*//*
+
+
 */
-
-
+/**
 import EDU.oswego.cs.dl.util.concurrent.*;
 
 import java.util.*;
@@ -34,213 +36,2109 @@ import java.lang.reflect.*;
 import java.beans.*;
 import java.net.*;
 
+class Helper {  // Dummy standin for referenced generic "Helper" classes
+    void handle() {
+    }
+
+    void operation() {
+    }
+}
+
+
+class Particle {
+    protected int x;
+    protected int y;
+    protected final Random rng = new Random();
+
+    public Particle(int initialX, int initialY) {
+        x = initialX;
+        y = initialY;
+    }
+
+    /**
+     * 随机移动
+     *//*
+
+    public synchronized void move() {
+        x += rng.nextInt(10) - 5;
+        y += rng.nextInt(20) - 10;
+    }
+
+    */
+/**
+     * 绘制自己
+     *
+     * @param g
+     *//*
+
+    public void draw(Graphics g) {
+        int lx, ly;
+        synchronized (this) {
+            lx = x;
+            ly = y;
+        }
+        g.drawRect(lx, ly, 10, 10);
+    }
+}
+
+class ParticleCanvas extends Canvas {
+
+    private Particle[] particles = new Particle[0];
+
+    ParticleCanvas(int size) {
+        setSize(new Dimension(size, size));
+    }
+
+    // Intended to be called by applet
+    synchronized void setParticles(Particle[] ps) {
+        if (ps == null)
+            throw new IllegalArgumentException("Cannot set null");
+
+        particles = ps;
+    }
+
+    protected synchronized Particle[] getParticles() {
+        return particles;
+    }
+
+    public void paint(Graphics g) { // override Canvas.paint
+        Particle[] ps = getParticles();
+
+        for (int i = 0; i < ps.length; ++i)
+            ps[i].draw(g);
+
+    }
+
+}
+
+class ParticleApplet extends Applet {
+
+    protected Thread[] threads; // null when not running
+
+    protected final ParticleCanvas canvas
+            = new ParticleCanvas(100);
+
+    public void init() {
+        add(canvas);
+    }
+
+    protected Thread makeThread(final Particle p) { // utility
+        Runnable runloop = new Runnable() {
+            public void run() {
+                try {
+                    for (; ; ) {
+                        p.move();
+                        canvas.repaint();
+                        Thread.sleep(100); // 100msec is arbitrary
+                    }
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+        };
+        return new Thread(runloop);
+    }
+
+    public synchronized void start() {
+        int n = 10; // just for demo
+
+        if (threads == null) { // bypass if already started
+            Particle[] particles = new Particle[n];
+            for (int i = 0; i < n; ++i)
+                particles[i] = new Particle(50, 50);
+            canvas.setParticles(particles);
+
+            threads = new Thread[n];
+            for (int i = 0; i < n; ++i) {
+                threads[i] = makeThread(particles[i]);
+                threads[i].start();
+            }
+        }
+    }
 
+    public synchronized void stop() {
+        if (threads != null) { // bypass if already stopped
+            for (int i = 0; i < threads.length; ++i)
+                threads[i].interrupt();
+            threads = null;
+        }
+    }
+}
+
+class AssertionError extends java.lang.Error {
+    public AssertionError() {
+        super();
+    }
 
+    public AssertionError(String message) {
+        super(message);
+    }
+}
 
 
+interface Tank {
+    float getCapacity();
 
+    float getVolume();
 
+    void transferWater(float amount)
+            throws OverflowException, UnderflowException;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class OverflowException extends Exception {
+}
+
+class UnderflowException extends Exception {
+}
+
+
+class TankImpl {
+    public float getCapacity() {
+        return 1.0f;
+    }
+
+    public float getVolume() {
+        return 1.0f;
+    }
+
+    public void transferWater(float amount)
+            throws OverflowException, UnderflowException {
+    }
+}
+
+
+class Performer {
+    public void perform() {
+    }
+}
+
+class AdaptedPerformer implements Runnable {
+    private final Performer adaptee;
+
+    public AdaptedPerformer(Performer p) {
+        adaptee = p;
+    }
+
+    public void run() {
+        adaptee.perform();
+    }
+}
+
+class AdaptedTank implements Tank {
+    protected final Tank delegate;
+
+    public AdaptedTank(Tank t) {
+        delegate = t;
+    }
+
+    public float getCapacity() {
+        return delegate.getCapacity();
+    }
+
+    public float getVolume() {
+        return delegate.getVolume();
+    }
+
+    protected void checkVolumeInvariant() throws AssertionError {
+        float v = getVolume();
+        float c = getCapacity();
+        if (!(v >= 0.0 && v <= c))
+            throw new AssertionError();
+    }
+
+    public synchronized void transferWater(float amount)
+            throws OverflowException, UnderflowException {
+
+
+        checkVolumeInvariant();  // before-check
+
+        try {
+            delegate.transferWater(amount);
+        }
+
+        // postpone rethrows until after-check
+        catch (OverflowException ex) {
+            throw ex;
+        } catch (UnderflowException ex) {
+            throw ex;
+        } finally {
+            checkVolumeInvariant(); // after-check
+        }
+    }
+
+}
+
+
+abstract class AbstractTank implements Tank {
+    protected void checkVolumeInvariant() throws AssertionError {
+        // ... identical to AdaptedTank version ...
+    }
+
+    protected abstract void doTransferWater(float amount)
+            throws OverflowException, UnderflowException;
+
+    public synchronized void transferWater(float amount)
+            throws OverflowException, UnderflowException {
+        // identical to AdaptedTank version except for inner call:
+
+        // ...
+        try {
+            doTransferWater(amount);
+        } finally {
+        }
+        // ...
+    }
+}
+
+class ConcreteTank extends AbstractTank {
+    protected final float capacity = 10.f;
+    protected float volume;
+
+    // ...
+    public float getVolume() {
+        return volume;
+    }
+
+    public float getCapacity() {
+        return capacity;
+    }
+
+    protected void doTransferWater(float amount)
+            throws OverflowException, UnderflowException {
+        // ... implementation code ...
+    }
+}
+
+interface TankOp {
+    void op() throws OverflowException, UnderflowException;
+}
+
+class TankWithMethodAdapter {
+    // ...
+    protected void checkVolumeInvariant() throws AssertionError {
+        // ... identical to AdaptedTank version ...
+    }
+
+    protected void runWithinBeforeAfterChecks(TankOp cmd)
+            throws OverflowException, UnderflowException {
+        // identical to AdaptedTank.transferWater
+        //   except for inner call:
+
+        // ...
+        try {
+            cmd.op();
+        } finally {
+        }
+
+        // ...
+    }
+
+    protected void doTransferWater(float amount)
+            throws OverflowException, UnderflowException {
+        // ... implementation code ...
+    }
+
+    public synchronized void transferWater(final float amount)
+            throws OverflowException, UnderflowException {
+
+        runWithinBeforeAfterChecks(new TankOp() {
+            public void op()
+                    throws OverflowException, UnderflowException {
+                doTransferWater(amount);
+            }
+        });
+    }
+}
+
+
+class StatelessAdder {
+    public int add(int a, int b) {
+        return a + b;
+    }
+}
+
+class ImmutableAdder {
+    private final int offset;
+
+    public ImmutableAdder(int a) {
+        offset = a;
+    }
+
+    public int addOffset(int b) {
+        return offset + b;
+    }
+}
+
+class Fraction {                             // Fragments
+    protected final long numerator;
+    protected final long denominator;
+
+    public Fraction(long num, long den) {
+        // normalize:
+        boolean sameSign = (num >= 0) == (den >= 0);
+        long n = (num >= 0) ? num : -num;
+        long d = (den >= 0) ? den : -den;
+        long g = gcd(n, d);
+        numerator = (sameSign) ? n / g : -n / g;
+        denominator = d / g;
+    }
+
+    static long gcd(long a, long b) {
+        // ... compute greatest common divisor ...
+        return 1;
+    }
+
+    public Fraction plus(Fraction f) {
+        return new Fraction(numerator * f.denominator +
+                f.numerator * denominator,
+                denominator * f.denominator);
+    }
+
+    public boolean equals(Object other) { // override default
+        if (!(other instanceof Fraction)) return false;
+        Fraction f = (Fraction) (other);
+        return numerator * f.denominator ==
+                denominator * f.numerator;
+    }
+
+    public int hashCode() {              // override default
+        return (int) (numerator ^ denominator);
+    }
+}
+
+class Server {
+    void doIt() {
+    }
+}
+
+class Relay {
+    protected final Server server;
+
+    Relay(Server s) {
+        server = s;
+    }
+
+    void doIt() {
+        server.doIt();
+    }
+}
+
+class Even {                                    //  Do not use
+    private int n = 0;
+
+    public int next() { // POST?: next is always even
+        ++n;
+        ++n;
+        return n;
+    }
+}
+
+class ExpandableArray {
+
+    protected Object[] data;  // the elements
+    protected int size = 0;   // the number of array slots used
+    // INV: 0 <= size <= data.length
+
+    public ExpandableArray(int cap) {
+        data = new Object[cap];
+    }
+
+    public synchronized int size() {
+        return size;
+    }
+
+    public synchronized Object get(int i) // subscripted access
+            throws NoSuchElementException {
+        if (i < 0 || i >= size)
+            throw new NoSuchElementException();
+
+        return data[i];
+    }
+
+    public synchronized void add(Object x) { // add at end
+        if (size == data.length) { // need a bigger array
+            Object[] olddata = data;
+            data = new Object[3 * (size + 1) / 2];
+            System.arraycopy(olddata, 0, data, 0, olddata.length);
+        }
+        data[size++] = x;
+    }
+
+    public synchronized void removeLast()
+            throws NoSuchElementException {
+        if (size == 0)
+            throw new NoSuchElementException();
+
+        data[--size] = null;
+    }
+}
+
+interface Procedure {
+    void apply(Object obj);
+}
+
+class ExpandableArrayWithApply extends ExpandableArray {
+
+    public ExpandableArrayWithApply(int cap) {
+        super(cap);
+    }
+
+    synchronized void applyToAll(Procedure p) {
+        for (int i = 0; i < size; ++i)
+            p.apply(data[i]);
+    }
+}
+
+class ExpandableArrayWithIterator extends ExpandableArray {
+    protected int version = 0;
+
+    public ExpandableArrayWithIterator(int cap) {
+        super(cap);
+    }
+
+    public synchronized void removeLast()
+            throws NoSuchElementException {
+        super.removeLast();
+        ++version;               // advertise update
+    }
+
+    public synchronized void add(Object x) {
+        super.add(x);
+        ++version;
+    }
+
+    public synchronized Iterator iterator() {
+        return new EAIterator();
+    }
+
+    protected class EAIterator implements Iterator {
+        protected final int currentVersion;
+        protected int currentIndex = 0;
+
+        EAIterator() {
+            currentVersion = version;
+        }
+
+        public Object next() {
+            synchronized (ExpandableArrayWithIterator.this) {
+                if (currentVersion != version)
+                    throw new ConcurrentModificationException();
+                else if (currentIndex == size)
+                    throw new NoSuchElementException();
+                else
+                    return data[currentIndex++];
+            }
+        }
+
+        public boolean hasNext() {
+            synchronized (ExpandableArrayWithIterator.this) {
+                return (currentIndex < size);
+            }
+        }
+
+        public void remove() {
+            // similar
+        }
+    }
+}
+
+class LazySingletonCounter {
+    private final long initial;
+    private long count;
+
+    private LazySingletonCounter() {
+        initial = Math.abs(new java.util.Random().nextLong() / 2);
+        count = initial;
+    }
+
+    private static LazySingletonCounter s = null;
+
+    private static final Object classLock =
+            LazySingletonCounter.class;
+
+    public static LazySingletonCounter instance() {
+        synchronized (classLock) {
+            if (s == null)
+                s = new LazySingletonCounter();
+            return s;
+        }
+    }
+
+    public long next() {
+        synchronized (classLock) {
+            return count++;
+        }
+    }
+
+    public void reset() {
+        synchronized (classLock) {
+            count = initial;
+        }
+    }
+}
+
+
+class EagerSingletonCounter {
+    private final long initial;
+    private long count;
+
+    private EagerSingletonCounter() {
+        initial = Math.abs(new java.util.Random().nextLong() / 2);
+        count = initial;
+    }
+
+    private static final EagerSingletonCounter s =
+            new EagerSingletonCounter();
+
+    public static EagerSingletonCounter instance() {
+        return s;
+    }
+
+    public synchronized long next() {
+        return count++;
+    }
+
+    public synchronized void reset() {
+        count = initial;
+    }
+}
+
+class StaticCounter {
+    private static final long initial =
+            Math.abs(new java.util.Random().nextLong() / 2);
+    private static long count = initial;
+
+    private StaticCounter() {
+    } // disable instance construction
+
+    public static synchronized long next() {
+        return count++;
+    }
+
+    public static synchronized void reset() {
+        count = initial;
+    }
+}
+
+
+class Cell {                                    // Do not use
+    private long value;
+
+    synchronized long getValue() {
+        return value;
+    }
+
+    synchronized void setValue(long v) {
+        value = v;
+    }
+
+    synchronized void swapValue(Cell other) {
+        long t = getValue();
+        long v = other.getValue();
+        setValue(v);
+        other.setValue(t);
+    }
+}
+
+
+class Cell2 {                                    // Do not use
+    private long value;
+
+    synchronized long getValue() {
+        return value;
+    }
+
+    synchronized void setValue(long v) {
+        value = v;
+    }
+
+    public void swapValue(Cell2 other) {
+        if (other == this) // alias check
+            return;
+        else if (System.identityHashCode(this) <
+                System.identityHashCode(other))
+            this.doSwapValue(other);
+        else
+            other.doSwapValue(this);
+    }
+
+    protected synchronized void doSwapValue(Cell2 other) {
+        // same as original public version:
+        long t = getValue();
+        long v = other.getValue();
+        setValue(v);
+        other.setValue(t);
+    }
+
+    protected synchronized void doSwapValueV2(Cell2 other) {
+        synchronized (other) {
+            long t = value;
+            value = other.value;
+            other.value = t;
+        }
+    }
+}
+
+final class SetCheck {
+    private int a = 0;
+    private long b = 0;
+
+    void set() {
+        a = 1;
+        b = -1;
+    }
+
+    boolean check() {
+        return ((b == 0) ||
+                (b == -1 && a == 1));
+    }
+}
+
+final class VFloat {
+    private float value;
+
+    final synchronized void set(float f) {
+        value = f;
+    }
+
+    final synchronized float get() {
+        return value;
+    }
+}
+
+class Plotter {                                  // fragments
+    // ...
+
+    public void showNextPoint() {
+        Point p = new Point();
+        p.x = computeX();
+        p.y = computeY();
+        display(p);
+    }
+
+    int computeX() {
+        return 1;
+    }
+
+    int computeY() {
+        return 1;
+    }
+
+    protected void display(Point p) {
+        // somehow arrange to show p.
+    }
+}
+
+
+class SessionBasedService {                     // Fragments
+    // ...
+    public void service() {
+        OutputStream output = null;
+        try {
+            output = new FileOutputStream("...");
+            doService(output);
+        } catch (IOException e) {
+            handleIOFailure();
+        } finally {
+            try {
+                if (output != null) output.close();
+            } catch (IOException ignore) {
+            } // ignore exception in close
+        }
+    }
+
+    void handleIOFailure() {
+    }
+
+    void doService(OutputStream s) throws IOException {
+        s.write(0);
+        // ... possibly more handoffs ...
+    }
+}
+
+
+class ThreadPerSessionBasedService { // fragments
+    // ...
+    public void service() {
+        Runnable r = new Runnable() {
+            public void run() {
+                OutputStream output = null;
+                try {
+                    output = new FileOutputStream("...");
+                    doService(output);
+                } catch (IOException e) {
+                    handleIOFailure();
+                } finally {
+                    try {
+                        if (output != null) output.close();
+                    } catch (IOException ignore) {
+                    }
+                }
+            }
+        };
+        new Thread(r).start();
+    }
+
+    void handleIOFailure() {
+    }
+
+
+    void doService(OutputStream s) throws IOException {
+        s.write(0);
+        // ... possibly more hand-offs ...
+    }
+}
+
+class ThreadWithOutputStream extends Thread {
+    private OutputStream output;
+
+    ThreadWithOutputStream(Runnable r, OutputStream s) {
+        super(r);
+        output = s;
+    }
+
+    static ThreadWithOutputStream current()
+            throws ClassCastException {
+        return (ThreadWithOutputStream) (currentThread());
+    }
+
+    static OutputStream getOutput() {
+        return current().output;
+    }
+
+    static void setOutput(OutputStream s) {
+        current().output = s;
+    }
+}
+
+
+class ServiceUsingThreadWithOutputStream {        // Fragments
+    // ...
+    public void service() throws IOException {
+        OutputStream output = new FileOutputStream("...");
+        Runnable r = new Runnable() {
+            public void run() {
+                try {
+                    doService();
+                } catch (IOException e) {
+                }
+            }
+        };
+        new ThreadWithOutputStream(r, output).start();
+    }
+
+    void doService() throws IOException {
+        ThreadWithOutputStream.current().getOutput().write(0);
+    }
+}
+
+class ServiceUsingThreadLocal {                   // Fragments
+    static ThreadLocal output = new ThreadLocal();
+
+    public void service() {
+        try {
+            final OutputStream s = new FileOutputStream("...");
+            Runnable r = new Runnable() {
+                public void run() {
+                    output.set(s);
+                    try {
+                        doService();
+                    } catch (IOException e) {
+                    } finally {
+                        try {
+                            s.close();
+                        } catch (IOException ignore) {
+                        }
+                    }
+                }
+            };
+            new Thread(r).start();
+        } catch (IOException e) {
+        }
+    }
+
+    void doService() throws IOException {
+        ((OutputStream) (output.get())).write(0);
+        // ...
+    }
+}
+
+class BarePoint {
+    public double x;
+    public double y;
+
+}
+
+class SynchedPoint {
+
+    protected final BarePoint delegate = new BarePoint();
+
+    public synchronized double getX() {
+        return delegate.x;
+    }
+
+    public synchronized double getY() {
+        return delegate.y;
+    }
+
+    public synchronized void setX(double v) {
+        delegate.x = v;
+    }
+
+    public synchronized void setY(double v) {
+        delegate.y = v;
+    }
+}
+
+class Address {                          // Fragments
+    protected String street;
+    protected String city;
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String s) {
+        street = s;
+    }
+
+    // ...
+    public void printLabel(OutputStream s) {
+    }
+}
+
+class SynchronizedAddress extends Address {
+    // ...
+    public synchronized String getStreet() {
+        return super.getStreet();
+    }
+
+    public synchronized void setStreet(String s) {
+        super.setStreet(s);
+    }
+
+    public synchronized void printLabel(OutputStream s) {
+        super.printLabel(s);
+    }
+}
+
+class Printer {
+    public void printDocument(byte[] doc) { */
+/* ... *//*
+ }
+    // ...
+}
+
+class PrintService {
+
+    protected PrintService neighbor = null; // node to take from
+    protected Printer printer = null;
+
+    public synchronized void print(byte[] doc) {
+        getPrinter().printDocument(doc);
+    }
+
+    protected Printer getPrinter() {    // PRE: synch lock held
+        if (printer == null)  // need to take from neighbor
+            printer = neighbor.takePrinter();
+        return printer;
+    }
+
+    synchronized Printer takePrinter() { // called from others
+        if (printer != null) {
+            Printer p = printer; // implement take protocol
+            printer = null;
+            return p;
+        } else
+            return neighbor.takePrinter(); // propagate
+    }
+
+    // initialization methods called only during start-up
+
+    synchronized void setNeighbor(PrintService n) {
+        neighbor = n;
+    }
+
+    synchronized void givePrinter(Printer p) {
+        printer = p;
+    }
+
+    // Sample code to initialize a ring of new services
+
+    public static void startUpServices(int nServices, Printer p)
+            throws IllegalArgumentException {
+
+        if (nServices <= 0 || p == null)
+            throw new IllegalArgumentException();
+
+        PrintService first = new PrintService();
+        PrintService pred = first;
+
+        for (int i = 1; i < nServices; ++i) {
+            PrintService s = new PrintService();
+            s.setNeighbor(pred);
+            pred = s;
+        }
+
+        first.setNeighbor(pred);
+        first.givePrinter(p);
+    }
+}
+
+
+class AnimationApplet extends Applet {            // Fragments
+    // ...
+    int framesPerSecond; // default zero is illegal value
+
+    void animate() {
+
+        try {
+            if (framesPerSecond == 0) { // the unsynchronized check
+                synchronized (this) {
+                    if (framesPerSecond == 0) { // the double-check
+                        String param = getParameter("fps");
+                        framesPerSecond = Integer.parseInt(param);
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
+
+        // ... actions using framesPerSecond ...
+    }
+}
+
+
+class ServerWithStateUpdate {
+    private double state;
+    private final Helper helper = new Helper();
+
+    public synchronized void service() {
+        state = 2.0f; // ...; // set to some new value
+        helper.operation();
+    }
+
+    public synchronized double getState() {
+        return state;
+    }
+}
+
+class ServerWithOpenCall {
+    private double state;
+    private final Helper helper = new Helper();
+
+    private synchronized void updateState() {
+        state = 2.0f; //  ...; // set to some new value
+    }
+
+    public void service() {
+        updateState();
+        helper.operation();
+    }
+
+    public synchronized double getState() {
+        return state;
+    }
+}
+
+class ServerWithAssignableHelper {
+    private double state;
+    private Helper helper = new Helper();
+
+    synchronized void setHelper(Helper h) {
+        helper = h;
+    }
+
+    public void service() {
+        Helper h;
+        synchronized (this) {
+            state = 2.0f; // ...
+            h = helper;
+        }
+        h.operation();
+    }
+
+    public synchronized void synchedService() { // see below
+        service();
+    }
+}
+
+class LinkedCell {
+    protected int value;
+    protected final LinkedCell next;
+
+    public LinkedCell(int v, LinkedCell t) {
+        value = v;
+        next = t;
+    }
+
+    public synchronized int value() {
+        return value;
+    }
+
+    public synchronized void setValue(int v) {
+        value = v;
+    }
+
+    public int sum() {               // add up all element values
+        return (next == null) ? value() : value() + next.sum();
+    }
+
+    public boolean includes(int x) { // search for x
+        return (value() == x) ? true :
+                (next == null) ? false : next.includes(x);
+    }
+}
+
+class Shape {                                   // Incomplete
+    protected double x = 0.0;
+    protected double y = 0.0;
+    protected double width = 0.0;
+    protected double height = 0.0;
+
+    public synchronized double x() {
+        return x;
+    }
+
+    public synchronized double y() {
+        return y;
+    }
+
+    public synchronized double width() {
+        return width;
+    }
+
+    public synchronized double height() {
+        return height;
+    }
+
+    public synchronized void adjustLocation() {
+        x = 1; // longCalculation1();
+        y = 2; //longCalculation2();
+    }
+
+    public synchronized void adjustDimensions() {
+        width = 3; // longCalculation3();
+        height = 4; // longCalculation4();
+    }
+
+    // ...
+}
+
+
+class PassThroughShape {
+
+    protected final AdjustableLoc loc = new AdjustableLoc(0, 0);
+    protected final AdjustableDim dim = new AdjustableDim(0, 0);
+
+    public double x() {
+        return loc.x();
+    }
+
+    public double y() {
+        return loc.y();
+    }
+
+    public double width() {
+        return dim.width();
+    }
+
+    public double height() {
+        return dim.height();
+    }
+
+    public void adjustLocation() {
+        loc.adjust();
+    }
+
+    public void adjustDimensions() {
+        dim.adjust();
+    }
+}
+
+class AdjustableLoc {
+    protected double x;
+    protected double y;
+
+    public AdjustableLoc(double initX, double initY) {
+        x = initX;
+        y = initY;
+    }
+
+    public synchronized double x() {
+        return x;
+    }
+
+    public synchronized double y() {
+        return y;
+    }
+
+    public synchronized void adjust() {
+        x = longCalculation1();
+        y = longCalculation2();
+    }
+
+    protected double longCalculation1() {
+        return 1; */
+/* ... *//*
+
+    }
+
+    protected double longCalculation2() {
+        return 2; */
+/* ... *//*
+
+    }
+
+}
+
+
+class AdjustableDim {
+    protected double width;
+    protected double height;
+
+    public AdjustableDim(double initW, double initH) {
+        width = initW;
+        height = initH;
+    }
+
+    public synchronized double width() {
+        return width;
+    }
+
+    public synchronized double height() {
+        return height;
+    }
+
+    public synchronized void adjust() {
+        width = longCalculation3();
+        height = longCalculation4();
+    }
+
+    protected double longCalculation3() {
+        return 3; */
+/* ... *//*
+
+    }
+
+    protected double longCalculation4() {
+        return 4; */
+/* ... *//*
+
+    }
+
+}
+
+class LockSplitShape {                     // Incomplete
+    protected double x = 0.0;
+    protected double y = 0.0;
+    protected double width = 0.0;
+    protected double height = 0.0;
+
+    protected final Object locationLock = new Object();
+    protected final Object dimensionLock = new Object();
+
+    public double x() {
+        synchronized (locationLock) {
+            return x;
+        }
+    }
+
+    public double y() {
+        synchronized (locationLock) {
+            return y;
+        }
+    }
+
+    public void adjustLocation() {
+        synchronized (locationLock) {
+            x = 1; // longCalculation1();
+            y = 2; // longCalculation2();
+        }
+    }
+
+    // and so on
+
+}
+
+
+class SynchronizedInt {
+    private int value;
+
+    public SynchronizedInt(int v) {
+        value = v;
+    }
+
+    public synchronized int get() {
+        return value;
+    }
+
+    public synchronized int set(int v) { // returns previous value
+        int oldValue = value;
+        value = v;
+        return oldValue;
+    }
+
+    public synchronized int increment() {
+        return ++value;
+    }
+
+    // and so on
+
+}
+
+class Person {                             // Fragments
+    // ...
+    protected final SynchronizedInt age = new SynchronizedInt(0);
+
+    protected final SynchronizedBoolean isMarried =
+            new SynchronizedBoolean(false);
+
+    protected final SynchronizedDouble income =
+            new SynchronizedDouble(0.0);
+
+    public int getAge() {
+        return age.get();
+    }
+
+    public void birthday() {
+        age.increment();
+    }
+    // ...
+}
+
+class LinkedQueue {
+    protected Node head = new Node(null);
+    protected Node last = head;
+
+    protected final Object pollLock = new Object();
+    protected final Object putLock = new Object();
+
+    public void put(Object x) {
+        Node node = new Node(x);
+        synchronized (putLock) {     // insert at end of list
+            synchronized (last) {
+                last.next = node;        // extend list
+                last = node;
+            }
+        }
+    }
+
+    public Object poll() {         // returns null if empty
+        synchronized (pollLock) {
+            synchronized (head) {
+                Object x = null;
+                Node first = head.next;  // get to first real node
+                if (first != null) {
+                    x = first.object;
+                    first.object = null;   // forget old object
+                    head = first;            // first becomes new head
+                }
+                return x;
+            }
+        }
+    }
+
+    static class Node {            // local node class for queue
+        Object object;
+        Node next = null;
+
+        Node(Object x) {
+            object = x;
+        }
+    }
+}
+
+class InsufficientFunds extends Exception {
+}
+
+interface Account {
+    long balance();
+}
+
+interface UpdatableAccount extends Account {
+    void credit(long amount) throws InsufficientFunds;
+
+    void debit(long amount) throws InsufficientFunds;
+}
 
 // Sample implementation of updatable version
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+class UpdatableAccountImpl implements UpdatableAccount {
+    private long currentBalance;
+
+    public UpdatableAccountImpl(long initialBalance) {
+        currentBalance = initialBalance;
+    }
+
+    public synchronized long balance() {
+        return currentBalance;
+    }
+
+    public synchronized void credit(long amount)
+            throws InsufficientFunds {
+        if (amount >= 0 || currentBalance >= -amount)
+            currentBalance += amount;
+        else
+            throw new InsufficientFunds();
+    }
+
+    public synchronized void debit(long amount)
+            throws InsufficientFunds {
+        credit(-amount);
+    }
+}
+
+final class ImmutableAccount implements Account {
+    private Account delegate;
+
+    public ImmutableAccount(long initialBalance) {
+        delegate = new UpdatableAccountImpl(initialBalance);
+    }
+
+    ImmutableAccount(Account acct) {
+        delegate = acct;
+    }
+
+    public long balance() { // forward the immutable method
+        return delegate.balance();
+    }
+}
+
+class AccountRecorder { // A logging facility
+    public void recordBalance(Account a) {
+        System.out.println(a.balance()); // or record in file
+    }
+}
+
+class AccountHolder {
+    private UpdatableAccount acct = new UpdatableAccountImpl(0);
+    private AccountRecorder recorder;
+
+    public AccountHolder(AccountRecorder r) {
+        recorder = r;
+    }
+
+    public synchronized void acceptMoney(long amount) {
+        try {
+            acct.credit(amount);
+            recorder.recordBalance(new ImmutableAccount(acct));//(*)
+        } catch (InsufficientFunds ex) {
+            System.out.println("Cannot accept negative amount.");
+        }
+    }
+}
+
+class EvilAccountRecorder extends AccountRecorder {
+    private long embezzlement;
+
+    // ...
+    public void recordBalance(Account a) {
+        super.recordBalance(a);
+
+        if (a instanceof UpdatableAccount) {
+            UpdatableAccount u = (UpdatableAccount) a;
+            try {
+                u.debit(10);
+                embezzlement += 10;
+            } catch (InsufficientFunds quietlyignore) {
+            }
+        }
+    }
+}
+
+class ImmutablePoint {
+    private final int x;
+    private final int y;
+
+    public ImmutablePoint(int initX, int initY) {
+        x = initX;
+        y = initY;
+    }
+
+    public int x() {
+        return x;
+    }
+
+    public int y() {
+        return y;
+    }
+}
+
+class Dot {
+    protected ImmutablePoint loc;
+
+    public Dot(int x, int y) {
+        loc = new ImmutablePoint(x, y);
+    }
+
+    public synchronized ImmutablePoint location() {
+        return loc;
+    }
+
+    protected synchronized void updateLoc(ImmutablePoint newLoc) {
+        loc = newLoc;
+    }
+
+    public void moveTo(int x, int y) {
+        updateLoc(new ImmutablePoint(x, y));
+    }
+
+    public synchronized void shiftX(int delta) {
+        updateLoc(new ImmutablePoint(loc.x() + delta,
+                loc.y()));
+    }
+}
+
+class CopyOnWriteArrayList {         // Incomplete
+    protected Object[] array = new Object[0];
+
+    protected synchronized Object[] getArray() {
+        return array;
+    }
+
+    public synchronized void add(Object element) {
+        int len = array.length;
+        Object[] newArray = new Object[len + 1];
+        System.arraycopy(array, 0, newArray, 0, len);
+        newArray[len] = element;
+        array = newArray;
+    }
+
+    public Iterator iterator() {
+        return new Iterator() {
+            protected final Object[] snapshot = getArray();
+            protected int cursor = 0;
+
+            public boolean hasNext() {
+                return cursor < snapshot.length;
+            }
+
+            public Object next() {
+                try {
+                    return snapshot[cursor++];
+                } catch (IndexOutOfBoundsException ex) {
+                    throw new NoSuchElementException();
+                }
+            }
+
+            public void remove() {
+            }
+
+        };
+    }
+}
+
+class State {
+}
+
+class Optimistic {                       // Generic code sketch
+
+    private State state; // reference to representation object
+
+    private synchronized State getState() {
+        return state;
+    }
+
+    private synchronized boolean commit(State assumed,
+                                        State next) {
+        if (state == assumed) {
+            state = next;
+            return true;
+        } else
+            return false;
+    }
+}
+
+class OptimisticDot {
+    protected ImmutablePoint loc;
+
+    public OptimisticDot(int x, int y) {
+        loc = new ImmutablePoint(x, y);
+    }
+
+    public synchronized ImmutablePoint location() {
+        return loc;
+    }
+
+    protected synchronized boolean commit(ImmutablePoint assumed,
+                                          ImmutablePoint next) {
+        if (loc == assumed) {
+            loc = next;
+            return true;
+        } else
+            return false;
+    }
+
+    public synchronized void moveTo(int x, int y) {
+        // bypass commit since unconditional
+        loc = new ImmutablePoint(x, y);
+    }
+
+    public void shiftX(int delta) {
+        boolean success = false;
+        do {
+            ImmutablePoint old = location();
+            ImmutablePoint next = new ImmutablePoint(old.x() + delta,
+                    old.y());
+            success = commit(old, next);
+        } while (!success);
+    }
+
+}
+
+
+class ParticleUsingMutex {
+    protected int x;
+    protected int y;
+    protected final Random rng = new Random();
+    protected final Mutex mutex = new Mutex();
+
+    public ParticleUsingMutex(int initialX, int initialY) {
+        x = initialX;
+        y = initialY;
+    }
+
+    public void move() {
+        try {
+            mutex.acquire();
+            try {
+                x += rng.nextInt(10) - 5;
+                y += rng.nextInt(20) - 10;
+            } finally {
+                mutex.release();
+            }
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void draw(Graphics g) {
+        int lx, ly;
+
+        try {
+            mutex.acquire();
+            try {
+                lx = x;
+                ly = y;
+            } finally {
+                mutex.release();
+            }
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+            return;
+        }
+
+        g.drawRect(lx, ly, 10, 10);
+    }
+}
+
+
+class WithMutex {
+    private final Mutex mutex;
+
+    public WithMutex(Mutex m) {
+        mutex = m;
+    }
+
+    public void perform(Runnable r) throws InterruptedException {
+        mutex.acquire();
+        try {
+            r.run();
+        } finally {
+            mutex.release();
+        }
+    }
+}
+
+class ParticleUsingWrapper {                     // Incomplete
+
+    protected int x;
+    protected int y;
+    protected final Random rng = new Random();
+
+    protected final WithMutex withMutex =
+            new WithMutex(new Mutex());
+
+    protected void doMove() {
+        x += rng.nextInt(10) - 5;
+        y += rng.nextInt(20) - 10;
+    }
+
+    public void move() {
+        try {
+            withMutex.perform(new Runnable() {
+                public void run() {
+                    doMove();
+                }
+            });
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+        }
+    }
+    // ...
+}
+
+
+class CellUsingBackoff {
+    private long value;
+    private final Mutex mutex = new Mutex();
+
+    void swapValue(CellUsingBackoff other) {
+        if (this == other) return; // alias check required
+        for (; ; ) {
+            try {
+                mutex.acquire();
+
+                try {
+                    if (other.mutex.attempt(0)) {
+                        try {
+                            long t = value;
+                            value = other.value;
+                            other.value = t;
+                            return;
+                        } finally {
+                            other.mutex.release();
+                        }
+                    }
+                } finally {
+                    mutex.release();
+                }
+                ;
+
+                Thread.sleep(100);
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
+    }
+}
+
+
+class CellUsingReorderedBackoff {
+    private long value;
+    private final Mutex mutex = new Mutex();
+
+    private static boolean trySwap(CellUsingReorderedBackoff a,
+                                   CellUsingReorderedBackoff b)
+            throws InterruptedException {
+        boolean success = false;
+
+        if (a.mutex.attempt(0)) {
+            try {
+                if (b.mutex.attempt(0)) {
+                    try {
+                        long t = a.value;
+                        a.value = b.value;
+                        b.value = t;
+                        success = true;
+                    } finally {
+                        b.mutex.release();
+                    }
+                }
+            } finally {
+                a.mutex.release();
+            }
+        }
+
+        return success;
+
+    }
+
+    void swapValue(CellUsingReorderedBackoff other) {
+        if (this == other) return; // alias check required
+        try {
+            while (!trySwap(this, other) &&
+                    !trySwap(other, this))
+                Thread.sleep(100);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
+
+class ListUsingMutex {
+
+    static class Node {
+        Object item;
+        Node next;
+        Mutex lock = new Mutex(); // each node keeps its own lock
+
+        Node(Object x, Node n) {
+            item = x;
+            next = n;
+        }
+    }
+
+    protected Node head; // pointer to first node of list
+
+    // Use plain synchronization to protect head field.
+    //  (We could instead use a Mutex here too but there is no
+    //  reason to do so.)
+
+    protected synchronized Node getHead() {
+        return head;
+    }
+
+    public synchronized void add(Object x) { // simple prepend
+
+        // for simplicity here, do not allow null elements
+        if (x == null) throw new IllegalArgumentException();
+
+        // The use of synchronized here protects only head field.
+        // The method does not need to wait out other traversers
+        // who have already made it past head node.
+
+        head = new Node(x, head);
+    }
+
+    boolean search(Object x) throws InterruptedException {
+        Node p = getHead();
+
+        if (p == null || x == null) return false;
+
+        p.lock.acquire();  // Prime loop by acquiring first lock.
+
+        // If above acquire fails due to interrupt, the method will
+        //   throw InterruptedException now, so there is no need for
+        //   further cleanup.
+
+        for (; ; ) {
+            Node nextp = null;
+            boolean found;
+
+            try {
+                found = x.equals(p.item);
+                if (!found) {
+                    nextp = p.next;
+                    if (nextp != null) {
+                        try {           // Acquire next lock
+                            //   while still holding current
+                            nextp.lock.acquire();
+                        } catch (InterruptedException ie) {
+                            throw ie;     // Note that finally clause will
+                            //   execute before the throw
+                        }
+                    }
+                }
+            } finally {
+                p.lock.release();
+            }
+
+            if (found)
+                return true;
+            else if (nextp == null)
+                return false;
+            else
+                p = nextp;
+        }
+    }
+
+    // ...  other similar traversal and update methods ...
+}
+
+class DataRepository {                           // code sketch
+
+    protected final ReadWriteLock rw = new WriterPreferenceReadWriteLock();
+
+    public void access() throws InterruptedException {
+        rw.readLock().acquire();
+        try {
+            */
+/* read data *//*
+
+        } finally {
+            rw.readLock().release();
+        }
+    }
+
+    public void modify() throws InterruptedException {
+        rw.writeLock().acquire();
+        try {
+            */
+/* write data *//*
+
+        } finally {
+            rw.writeLock().release();
+        }
+    }
+
+}
+
+class ClientUsingSocket {                       // Code sketch
+    int portnumber = 1234;
+    String server = "gee";
+
+    // ...
+    Socket retryUntilConnected() throws InterruptedException {
+        // first delay is randomly chosen between 5 and 10secs
+        long delayTime = 5000 + (long) (Math.random() * 5000);
+        for (; ; ) {
+            try {
+                return new Socket(server, portnumber);
+            } catch (IOException ex) {
+                Thread.sleep(delayTime);
+                delayTime = delayTime * 3 / 2 + 1; // increase 50%
+            }
+        }
+    }
+}
+
+class ServiceException extends Exception {
+}
+
+interface ServerWithException {
+    void service() throws ServiceException;
+}
+
+interface ServiceExceptionHandler {
+    void handle(ServiceException e);
+}
+
+class ServerImpl implements ServerWithException {
+    public void service() throws ServiceException {
+    }
+}
+
+class HandlerImpl implements ServiceExceptionHandler {
+    public void handle(ServiceException e) {
+    }
+}
+
+
+class HandledService implements ServerWithException {
+    final ServerWithException server = new ServerImpl();
+    final ServiceExceptionHandler handler = new HandlerImpl();
+
+    public void service() { // no throw clause
+        try {
+            server.service();
+        } catch (ServiceException e) {
+            handler.handle(e);
+        }
+    }
+}
+
+class ExceptionEvent extends java.util.EventObject {
+    public final Throwable theException;
+
+    public ExceptionEvent(Object src, Throwable ex) {
+        super(src);
+        theException = ex;
+    }
+}
+
+
+class ExceptionEventListener {                // Incomplete
+    public void exceptionOccured(ExceptionEvent ee) {
+        // ... respond to exception...
+    }
+}
+
+class ServiceIssuingExceptionEvent {         // Incomplete
+    // ...
+    private final CopyOnWriteArrayList handlers =
+            new CopyOnWriteArrayList();
+
+    public void addHandler(ExceptionEventListener h) {
+        handlers.add(h);
+    }
+
+    public void service() {
+        // ...
+        boolean failed = true;
+        if (failed) {
+            Throwable ex = new ServiceException();
+            ExceptionEvent ee = new ExceptionEvent(this, ex);
+
+            for (Iterator it = handlers.iterator(); it.hasNext(); ) {
+                ExceptionEventListener l =
+                        (ExceptionEventListener) (it.next());
+                l.exceptionOccured(ee);
+            }
+        }
+    }
+
+}
+
+class CancellableReader {                        // Incomplete
+    private Thread readerThread; // only one at a time supported
+    private FileInputStream dataFile;
+
+    public synchronized void startReaderThread()
+            throws IllegalStateException, FileNotFoundException {
+        if (readerThread != null) throw new IllegalStateException();
+        dataFile = new FileInputStream("data");
+        readerThread = new Thread(new Runnable() {
+            public void run() {
+                doRead();
+            }
+        });
+        readerThread.start();
+    }
+
+    protected synchronized void closeFile() { // utility method
+        if (dataFile != null) {
+            try {
+                dataFile.close();
+            } catch (IOException ignore) {
+            }
+            dataFile = null;
+        }
+    }
+
+    void process(int b) {
+    }
+
+    private void doRead() {
+        try {
+            while (!Thread.interrupted()) {
+                try {
+                    int c = dataFile.read();
+                    if (c == -1) break;
+                    else process(c);
+                } catch (IOException ex) {
+                    break; // perhaps first do other cleanup
+                }
+            }
+        } finally {
+            closeFile();
+            synchronized (this) {
+                readerThread = null;
+            }
+        }
+    }
+
+    public synchronized void cancelReaderThread() {
+        if (readerThread != null) readerThread.interrupt();
+        closeFile();
+    }
+}
+
+class ReaderWithTimeout {               // Generic code sketch
+    // ...
+    void process(int b) {
+    }
+
+    void attemptRead(InputStream stream, long timeout) throws Exception {
+        long startTime = System.currentTimeMillis();
+        try {
+            for (; ; ) {
+                if (stream.available() > 0) {
+                    int c = stream.read();
+                    if (c != -1) process(c);
+                    else break; // eof
+                } else {
+                    try {
+                        Thread.sleep(100); // arbitrary back-off time
+                    } catch (InterruptedException ie) {
+                        */
+/* ... quietly wrap up and return ... *//*
+
+                    }
+                    long now = System.currentTimeMillis();
+                    if (now - startTime >= timeout) {
+                        */
+/* ... fail ...*//*
+
+                    }
+                }
+            }
+        } catch (IOException ex) { */
+/* ... fail ... *//*
+ }
+    }
+}
+
+class C {                                         // Fragments
+    private int v;  // invariant: v >= 0
+
+    synchronized void f() {
+        v = -1;   // temporarily set to illegal value as flag
+        compute();  // possible stop point (*)
+        v = 1;      // set to legal value
+    }
+
+    synchronized void g() {
+        while (v != 0) {
+            --v;
+            something();
+        }
+    }
+
+    void compute() {
+    }
+
+    void something() {
+    }
+}
+
+class Terminator {
+
+    // Try to kill; return true if known to be dead
+
+    static boolean terminate(Thread t, long maxWaitToDie) {
+
+        if (!t.isAlive()) return true;  // already dead
+
+        // phase 1 -- graceful cancellation
+        t.interrupt();
+        try {
+            t.join(maxWaitToDie);
+        } catch (InterruptedException e) {
+        } //  ignore
+
+        if (!t.isAlive()) return true;  // success
+
+        // phase 2 -- trap all security checks
+        // theSecurityMgr.denyAllChecksFor(t); // a made-up method
+        try {
+            t.join(maxWaitToDie);
+        } catch (InterruptedException ex) {
+        }
+
+        if (!t.isAlive()) return true;
+
+        // phase 3 -- minimize damage
+        t.setPriority(Thread.MIN_PRIORITY);
+        return false;
+    }
+
+}
+
+interface BoundedCounter {
+
+    static final long MIN = 0;  // minimum allowed value
+
+    static final long MAX = 10; // maximum allowed value
+
+
+    long count();         // INV:  MIN <= count() <= MAX
+    // INIT: count() == MIN
+
+    void inc();           // only allowed when count() < MAX
+
+    void dec();           // only allowed when count() > MIN
+
+}
+
+class X {
+    synchronized void w() throws InterruptedException {
+        before();
+        wait();
+        after();
+    }
+
+    synchronized void n() {
+        notifyAll();
+    }
+
+    void before() {
+    }
+
+    void after() {
+    }
+}
 
 
 class GuardedClass {                     // Generic code sketch
@@ -355,7 +2253,9 @@ class GamePlayer implements Runnable {          // Incomplete
         while (!myturn) wait();
     }
 
-    void move() { /*... perform one move ... */ }
+    void move() { */
+/*... perform one move ... *//*
+ }
 
     public void run() {
         try {
@@ -763,10 +2663,14 @@ class StackEmptyException extends Exception {
 class Stack {                                    // Fragments
 
     public synchronized boolean isEmpty() {
-        return false; /* ... */
+        return false; */
+/* ... *//*
+
     }
 
-    public synchronized void push(Object x) { /* ... */ }
+    public synchronized void push(Object x) { */
+/* ... *//*
+ }
 
     public synchronized Object pop() throws StackEmptyException {
         if (isEmpty())
@@ -957,7 +2861,9 @@ class BoundedBufferWithSemaphores {
 }
 
 
-class SynchronousChannel /* implements Channel */ {
+class SynchronousChannel */
+/* implements Channel *//*
+ {
 
     protected Object item = null; // to hold while in transit
 
@@ -1055,10 +2961,14 @@ class FillAndEmpty {                              // Incomplete
     protected Rendezvous exchanger = new Rendezvous(2);
 
     protected byte readByte() {
-        return 1; /* ... */
+        return 1; */
+/* ... *//*
+
     }
 
-    protected void useByte(byte b) { /* ... */ }
+    protected void useByte(byte b) { */
+/* ... *//*
+ }
 
     public void start() {
         new Thread(new FillingLoop()).start();
@@ -1413,7 +3323,9 @@ class SimpleTransBankAccount implements TransBankAccount {
 }
 
 
-class ProxyAccount /* implements TransBankAccount */ {
+class ProxyAccount */
+/* implements TransBankAccount *//*
+ {
     private TransBankAccount delegate;
 
     public boolean join(Transaction t) {
@@ -2991,7 +4903,9 @@ class DiskReadTask extends DiskTask {
         super(c, b);
     }
 
-    void access() throws Failure { /* ... raw read ... */ }
+    void access() throws Failure { */
+/* ... raw read ... *//*
+ }
 }
 
 class DiskWriteTask extends DiskTask {
@@ -2999,7 +4913,9 @@ class DiskWriteTask extends DiskTask {
         super(c, b);
     }
 
-    void access() throws Failure { /* ... raw write ... */ }
+    void access() throws Failure { */
+/* ... raw write ... *//*
+ }
 }
 
 class ScheduledDisk implements Disk {
@@ -3461,7 +5377,9 @@ class Segment implements Runnable {            // Code sketch
     public void run() {
         // ...
         try {
-            for (int i = 0; i < 10 /* iterations */; ++i) {
+            for (int i = 0; i < 10 */
+/* iterations *//*
+; ++i) {
                 update();
                 bar.barrier();
             }
@@ -3509,7 +5427,9 @@ class JacobiSegment implements Runnable {        // Incomplete
     volatile double maxDiff;
     int steps = 0;
 
-    void update() { /* Nearly same as Leaf.run */ }
+    void update() { */
+/* Nearly same as Leaf.run *//*
+ }
 
     final CyclicBarrier bar;
     final JacobiSegment[] allSegments; // needed for convergence check
@@ -3564,6 +5484,7 @@ class ActiveRunnableExecutor extends Thread {
     }
 }
 
+*/
 /*
 //import jcsp.lang.*;
 
@@ -3702,11 +5623,14 @@ class College implements jcsp.lang.CSProcess {
     }
 
 
-}*/
+}*//*
+
 
 
 public class CPJ {
-   /* public static void main(String[] args) {
-        System.out.println(1);
-    }*/
+    public static void main(String[] args) {
+        System.out.println("compile done");
+    }
 }
+
+*/
