@@ -1,4 +1,7 @@
 ### CS 891: Parallel Functional Programming with Java and Android
+
+https://www.dre.vanderbilt.edu/~schmidt/resume.html
+
 **SITE:** http://www.dre.vanderbilt.edu/~schmidt/cs891f/
 
 **PLAYLIST:** https://www.youtube.com/watch?v=kADtRTxPaf8&list=PLZ9NgFYEMxp5NbV2NQ2moSX-V_Jv1aiGH

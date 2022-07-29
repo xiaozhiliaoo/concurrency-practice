@@ -7,7 +7,7 @@ import rx.schedulers.Schedulers;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
-import static org.example.imagestreamgang.utils.StreamsUtils.not;
+import static org.example.ImageStreamGang.utils.StreamsUtils.not;
 
 /**
  * Customizes the SearchStreamGang framework to use RxJava in

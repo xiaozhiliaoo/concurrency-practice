@@ -19,14 +19,14 @@ public abstract class FutureRenderer {
     void renderPage(CharSequence source) {
         final List<ImageInfo> imageInfos = scanForImageInfo(source);
         Callable<List<ImageData>> task = new Callable<List<ImageData>>() {
-                    public List<ImageData> call() {
-                        List<ImageData> result = new ArrayList<ImageData>();
-                        for (ImageInfo imageInfo : imageInfos) {
-                            result.add(imageInfo.downloadImage());
-                        }
-                        return result;
-                    }
-                };
+            public List<ImageData> call() {
+                List<ImageData> result = new ArrayList<ImageData>();
+                for (ImageInfo imageInfo : imageInfos) {
+                    result.add(imageInfo.downloadImage());
+                }
+                return result;
+            }
+        };
 
         Future<List<ImageData>> future = executor.submit(task);
 

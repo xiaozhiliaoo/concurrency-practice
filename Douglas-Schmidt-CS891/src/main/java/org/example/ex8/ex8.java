@@ -50,27 +50,27 @@ public class ex8 {
         // Test BigFraction reduction using a CompletableFuture and a
         // chain of completion stage "normal" (i.e., non-*Async())
         // methods.
-//        testFractionReduction();
+        testFractionReduction();
 
         // Test BigFraction reduction using a CompletableFuture and a
         // chain of completion stage *Async() methods.
-//        testAsyncFractionReduction();
+        testAsyncFractionReduction();
 
         // Test the use of a BigFraction constant using basic features
         // of a CompletableFuture and an explicit Java Thread.
-//        testFractionConstantThread();
+        testFractionConstantThread();
 
         // Test BigFraction multiplication using basic features of
         // CompletableFuture and an explicit Java Thread.
-//        testFractionMultiplicationThread();
+        testFractionMultiplicationThread();
 
         // Test BigFraction multiplication using a CompletableFuture and
         // its runAsync() and join() methods.
-//        testFractionMultiplicationRunAsync();
+        testFractionMultiplicationRunAsync();
 
         // Test BigFraction multiplication using a Callable, Future,
         // and the common fork-join pool.
-//        testFractionMultiplicationCallable();
+        testFractionMultiplicationCallable();
 
         // Test BigFraction multiplication using a CompletableFuture and
         // its supplyAsync() factory method and join() method.
@@ -84,11 +84,11 @@ public class ex8 {
         // Test BigFraction multiplication using a CompletableFuture and
         // its supplyAsync() factory method and thenAccept()
         // completion stage method.
-//        testFractionMultiplicationAsyncChaining();
+        testFractionMultiplicationAsyncChaining();
 
         // Test big fraction multiplication and addition using a
         // supplyAsync() and thenCombine().
-//        testFractionCombine();
+        testFractionCombine();
 
         // Test BigFraction exception handling using
         // CompletableFutures and the handle() method.

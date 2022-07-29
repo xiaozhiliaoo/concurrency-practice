@@ -25,3 +25,14 @@
 《Java高并发程序设计》- 葛一鸣 等书源代码以及自己的小例子。 实战很强，并发方方面面都设计
 
 《Java并发实现原理-JDK源码剖析》 - 偏原理
+
+《精通Java并发编程 第2版》英文：Mastering Concurrency Programming with Java 9 - （西）哈维尔·费尔南德斯·冈萨雷斯著 唐富年译
+
+《Java 9 并发编程实战》 英文：Java 9 Concurrency Cookbook - （西）哈维尔·费尔南德斯·冈萨雷斯著 
+
+
+## 国外
+
+
+Mastering Concurrency Programming with Java 9
+
