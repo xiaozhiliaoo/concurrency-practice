@@ -6,8 +6,6 @@ https://www.dre.vanderbilt.edu/~schmidt/resume.html
 
 **PLAYLIST:** https://www.youtube.com/watch?v=kADtRTxPaf8&list=PLZ9NgFYEMxp5NbV2NQ2moSX-V_Jv1aiGH
 
-**Speed of progress:** Java ExecutorCompletionService (Part 3)
-
 学习策略：先看PDF，代码，最后看视频，直接看视频看不懂且理解不深。
 
 https://github.com/douglascraigschmidt/LiveLessons

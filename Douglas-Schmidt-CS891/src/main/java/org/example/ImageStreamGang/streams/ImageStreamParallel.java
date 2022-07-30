@@ -20,13 +20,11 @@ import java.util.stream.Stream;
  * Runtime.getRuntime().availableProcessors().  The size of this
  * global thread pool can be changed via Java system properties.
  */
-public class ImageStreamParallel 
-       extends ImageStreamGang {
+public class ImageStreamParallel extends ImageStreamGang {
     /**
      * Constructor initializes the superclass.
      */
-    public ImageStreamParallel(Filter[] filters,
-                               Iterator<List<URL>> urlListIterator) {
+    public ImageStreamParallel(Filter[] filters, Iterator<List<URL>> urlListIterator) {
         super(filters, urlListIterator);
     }
 
@@ -82,7 +80,6 @@ public class ImageStreamParallel
            // Use map() to create an OutputFilterDecorator for each
            // image and run it to filter each image and store it in an
            // output file.
-           .map(filter ->
-                makeFilterDecoratorWithImage(filter, image).run());
+           .map(filter -> makeFilterDecoratorWithImage(filter, image).run());
     }
 }

@@ -15,8 +15,7 @@ import org.example.ImageStreamGang.utils.Image;
  * strategies can use the Java 8 CompletableFutures framework to
  * download, process, and store images asynchronously.
  */
-abstract class ImageStreamCompletableFutureBase
-         extends ImageStreamGang {
+abstract class ImageStreamCompletableFutureBase extends ImageStreamGang {
     /**
      * Constructor initializes the superclass.
      */
@@ -35,32 +34,32 @@ abstract class ImageStreamCompletableFutureBase
      */
     CompletableFuture<Optional<URL>> checkUrlCachedAsync(URL url) {
         return CompletableFuture
-            // Asynchronously check if the URL is cached.
-            .supplyAsync(() -> Optional.ofNullable(urlCached(url) ? null : url),
-                         getExecutor());
-            
+                // Asynchronously check if the URL is cached.
+                .supplyAsync(() -> Optional.ofNullable(urlCached(url) ? null : url),
+                        getExecutor());
+
     }
 
 
     /**
      * Log the results.
-     * 
+     *
      * @param resultsStream A stream of images that have been
-     * downloaded, processed, and stored
-     * @param urlsSize The number of URLs to download
+     *                      downloaded, processed, and stored
+     * @param urlsSize      The number of URLs to download
      */
     protected void log(Stream<Image> resultsStream,
                        int urlsSize) {
         // Print the results to the log.
         System.out
-            .println(TAG
-                     + ": processing of "
-                     + resultsStream
-                     // Count the number of elements in the flattened
-                     // stream.
-                     .count()
-                     + " image(s) from "
-                     + urlsSize
-                     + " urls is complete");
+                .println(TAG
+                        + ": processing of "
+                        + resultsStream
+                        // Count the number of elements in the flattened
+                        // stream.
+                        .count()
+                        + " image(s) from "
+                        + urlsSize
+                        + " urls is complete");
     }
 }

@@ -46,32 +46,23 @@ public class SearchStreamGangTest {
                                                          TestsToRun choice) {
         switch (choice) {
             case SEQUENTIAL_LOOPS:
-                return new SearchWithSequentialLoops(phraseList,
-                        inputData);
+                return new SearchWithSequentialLoops(phraseList, inputData);
             case SEQUENTIAL_STREAM:
-                return new SearchWithSequentialStreams(phraseList,
-                        inputData);
+                return new SearchWithSequentialStreams(phraseList, inputData);
             case FORK_JOIN:
-                return new SearchWithForkJoin(phraseList,
-                        inputData);
+                return new SearchWithForkJoin(phraseList, inputData);
             case PARALLEL_SPLITERATOR:
-                return new SearchWithParallelSpliterator(phraseList,
-                        inputData);
+                return new SearchWithParallelSpliterator(phraseList, inputData);
             case PARALLEL_STREAM_INPUTS:
-                return new SearchWithParallelStreamInputs(phraseList,
-                        inputData);
+                return new SearchWithParallelStreamInputs(phraseList, inputData);
             case PARALLEL_STREAM_PHASES:
-                return new SearchWithParallelStreamPhrases(phraseList,
-                        inputData);
+                return new SearchWithParallelStreamPhrases(phraseList, inputData);
             case PARALLEL_STREAMS:
-                return new SearchWithParallelStreams(phraseList,
-                        inputData);
+                return new SearchWithParallelStreams(phraseList, inputData);
             case COMPLETABLE_FUTURES_PHASES:
-                return new SearchWithCompletableFuturesPhrases(phraseList,
-                        inputData);
+                return new SearchWithCompletableFuturesPhrases(phraseList, inputData);
             case COMPLETABLE_FUTURES_INPUTS:
-                return new SearchWithCompletableFuturesInputs(phraseList,
-                        inputData);
+                return new SearchWithCompletableFuturesInputs(phraseList, inputData);
             case RXJAVA_INPUTS:
                 return new SearchWithRxJavaInputs(phraseList, inputData);
             case RXJAVA_PHASES:
@@ -86,15 +77,13 @@ public class SearchStreamGangTest {
     /**
      * The complete works of William Shakespeare.
      */
-    private static String sSHAKESPEARE_DATA_FILE =
-            "completeWorksOfShakespeare.txt";
+    private static String sSHAKESPEARE_DATA_FILE = "completeWorksOfShakespeare.txt";
 
     /**
      * A list of phrases to search for in the complete works of
      * Shakespeare.
      */
-    private static String sPHASE_LIST_FILE =
-            "phraseList.txt";
+    private static String sPHASE_LIST_FILE = "phraseList.txt";
 
     /**
      * This is the entry point into the test driver program.

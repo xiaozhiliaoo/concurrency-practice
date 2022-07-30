@@ -31,8 +31,7 @@ import org.example.ImageStreamGang.utils.Options;
  * plays the role of the "Concrete class" in the Template Method
  * pattern.
  */
-public abstract class ImageStreamGang
-       extends StreamGang<URL> {
+public abstract class ImageStreamGang extends StreamGang<URL> {
     /**
      * An iterator to the List of input URLs that are used to download
      * (or open) images.
@@ -47,8 +46,7 @@ public abstract class ImageStreamGang
     /**
      * Constructor initializes the class and fields.
      */
-    public ImageStreamGang(Filter[] filters,
-                           Iterator<List<URL>> urlListIterator) {
+    public ImageStreamGang(Filter[] filters, Iterator<List<URL>> urlListIterator) {
         // Store the Filters to apply as a List.
         mFilters = Arrays.asList(filters);
 
@@ -87,7 +85,7 @@ public abstract class ImageStreamGang
     protected void awaitTasksDone() {
         try {
             // Loop for each iteration cycle of input URLs.
-            for (;;) {
+            for (; ; ) {
                 // Check to see if there's another List of URLs
                 // available to process.
                 if (setInput(getNextInput()) == null)
@@ -103,7 +101,7 @@ public abstract class ImageStreamGang
             // just an Executor).
             if (getExecutor() instanceof ExecutorService) {
                 ExecutorService executorService =
-                    (ExecutorService) getExecutor();
+                        (ExecutorService) getExecutor();
 
                 // Tell the ExecutorService to initiate a graceful
                 // shutdown.
@@ -112,7 +110,7 @@ public abstract class ImageStreamGang
                 // Wait for all the tasks in the Thread pool to
                 // complete.
                 executorService.awaitTermination(Long.MAX_VALUE,
-                                                 TimeUnit.NANOSECONDS);
+                        TimeUnit.NANOSECONDS);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -132,8 +130,7 @@ public abstract class ImageStreamGang
             // Return a List containing the URLs to download
             // concurrently.
             return mUrlListIterator.next();
-        }
-        else
+        } else
             // Indicate that we're done.
             return null;
     }
@@ -144,8 +141,7 @@ public abstract class ImageStreamGang
      * expanded to handle the blocking image download.
      */
     protected Image blockingDownload(URL url) {
-        return BlockingTask.callInManagedBlock(()
-                                               -> downloadImage(url));
+        return BlockingTask.callInManagedBlock(() -> downloadImage(url));
     }
 
     /**
@@ -154,7 +150,7 @@ public abstract class ImageStreamGang
      */
     protected Image downloadImage(URL url) {
         return new Image(url,
-                         NetUtils.downloadContent(url));
+                NetUtils.downloadContent(url));
     }
 
     /**
@@ -162,8 +158,7 @@ public abstract class ImageStreamGang
      */
     protected FilterDecoratorWithImage makeFilterDecoratorWithImage(Filter filter,
                                                                     Image image) {
-        return new FilterDecoratorWithImage(new OutputFilterDecorator(filter),
-                                            image);
+        return new FilterDecoratorWithImage(new OutputFilterDecorator(filter), image);
     }
 
     /**
@@ -171,7 +166,7 @@ public abstract class ImageStreamGang
      * system.  If not, it atomically creates a new file based on
      * combining the @a url with the @a filterName and returns false,
      * else true.
-
+     *
      * @return true if the @a url already exists in file system, else
      * false.
      */
@@ -180,15 +175,11 @@ public abstract class ImageStreamGang
         File imageFile = null;
         try {
             // Construct the subdirectory for the filter.
-            File externalFile =
-                new File(Options.instance().getDirectoryPath(),
-                         filterName);
+            File externalFile = new File(Options.instance().getDirectoryPath(), filterName);
 
             // Construct a new file based on the filename for the URL.
-            imageFile =
-                new File(externalFile,
-                         NetUtils.getFileNameForUrl(url));
-            
+            imageFile = new File(externalFile, NetUtils.getFileNameForUrl(url));
+
             // The URL is already cached if imageFile exists so we
             // negate the return value from createNewFile().
             return !imageFile.createNewFile();
@@ -206,16 +197,15 @@ public abstract class ImageStreamGang
         // Iterate through the list of filters and check to see which
         // images already exist in the cache.
         long count = mFilters
-            // Convert list of filters into a stream.
-            .stream()
+                // Convert list of filters into a stream.
+                .stream()
 
-            // Find files that already exist.
-            .filter(filter -> 
-                    urlCached(url, filter.getName()))
+                // Find files that already exist.
+                .filter(filter -> urlCached(url, filter.getName()))
 
-            // Return a count of the number of files that already
-            // exist.
-            .count();
+                // Return a count of the number of files that already
+                // exist.
+                .count();
 
         // A count > 0 means the url has already been cached.
         return count > 0;

@@ -1,7 +1,6 @@
 package org.example.ImageStreamGang.streams;
 
 
-
 import org.example.ImageStreamGang.filters.Filter;
 import org.example.ImageStreamGang.utils.Image;
 
@@ -21,15 +20,14 @@ import static org.example.ImageStreamGang.utils.StreamOfFuturesCollector.toFutur
  * ImageStreamCompletableFutureBase super class to download, process,
  * and store images asynchronously in a common fork-join thread pool.
  */
-public class ImageStreamCompletableFuture1
-       extends ImageStreamCompletableFutureBase {
-     /**
+public class ImageStreamCompletableFuture1 extends ImageStreamCompletableFutureBase {
+    /**
      * Constructor initializes the superclass and data members.
      */
     public ImageStreamCompletableFuture1(Filter[] filters,
                                          Iterator<List<URL>> urlListIterator) {
-        super(filters, 
-              urlListIterator);
+        super(filters,
+                urlListIterator);
     }
 
     /**
@@ -56,44 +54,44 @@ public class ImageStreamCompletableFuture1
         List<URL> urls = getInput();
 
         urls
-            // Convert the URLs in the input list into a sequential
-            // stream.
-            .stream()
+                // Convert the URLs in the input list into a sequential
+                // stream.
+                .stream()
 
-            // Use map() to call checkUrlCachedAsync(), which
-            // asynchronously checks if a URL is aready cached.
-            .map(this::checkUrlCachedAsync)
+                // Use map() to call checkUrlCachedAsync(), which
+                // asynchronously checks if a URL is aready cached.
+                .map(this::checkUrlCachedAsync)
 
-            // Use map() to call downloadImageAsync(), which
-            // transforms each non-cached URL to a future to an image
-            // (i.e., asynchronously download each image via its URL).
-            .map(this::downloadImageAsync)
+                // Use map() to call downloadImageAsync(), which
+                // transforms each non-cached URL to a future to an image
+                // (i.e., asynchronously download each image via its URL).
+                .map(this::downloadImageAsync)
 
-            // Use flatMap() to call applyFiltersAsync(), which
-            // returns a future to a stream of filtered images that
-            // are not already cached locally.
-            .flatMap(this::applyFiltersAsync)
+                // Use flatMap() to call applyFiltersAsync(), which
+                // returns a future to a stream of filtered images that
+                // are not already cached locally.
+                .flatMap(this::applyFiltersAsync)
 
-            // Trigger intermediate processing and create a future
-            // that can be used to wait for all operations associated
-            // with the stream of futures to complete.
-            .collect(toFuture())
+                // Trigger intermediate processing and create a future
+                // that can be used to wait for all operations associated
+                // with the stream of futures to complete.
+                .collect(toFuture())
 
-            // thenAccept() is called when all the futures in the
-            // stream complete their asynchronous processing.
-            .thenAccept(stream ->
+                // thenAccept() is called when all the futures in the
+                // stream complete their asynchronous processing.
+                .thenAccept(stream ->
                         // Log the results.
                         log(stream
-                            // Remove any empty optionals.
+                                        // Remove any empty optionals.
 //                            .flatMap(Optional::stream),
-                            // For JDK 8 you'll need to use
-                             .filter(Optional::isPresent)
-                             .map(Optional::get),
-                            urls.size()))
+                                        // For JDK 8 you'll need to use
+                                        .filter(Optional::isPresent)
+                                        .map(Optional::get),
+                                urls.size()))
 
-            // Wait until all the images have been downloaded,
-            // processed, and stored.
-            .join();
+                // Wait until all the images have been downloaded,
+                // processed, and stored.
+                .join();
     }
 
     /**
@@ -103,18 +101,18 @@ public class ImageStreamCompletableFuture1
      * @return A future that completes when the image finishes downloading
      */
     private CompletableFuture<Optional<Image>> downloadImageAsync
-              (CompletableFuture<Optional<URL>> urlFuture) {
+    (CompletableFuture<Optional<URL>> urlFuture) {
         // Return a future that completes when the image finishes
         // downloading.
         return urlFuture
-            // Use the executor to asynchronously download an image
-            // when urlFuture completes.
-            .thenApplyAsync(urlOpt ->
-                            urlOpt
-                            // Download non-null URLs.
-                            .map(this::blockingDownload),
-                            // Use the common fork-join pool.
-                            getExecutor());
+                // Use the executor to asynchronously download an image
+                // when urlFuture completes.
+                .thenApplyAsync(urlOpt ->
+                                urlOpt
+                                        // Download non-null URLs.
+                                        .map(this::blockingDownload),
+                        // Use the common fork-join pool.
+                        getExecutor());
     }
 
     /**
@@ -123,26 +121,26 @@ public class ImageStreamCompletableFuture1
      * on the local computer.
      *
      * @param imageFuture A future to an image that's being downloaded
-     @ return A stream of completable futures to images that are being filtered/stored
-    */
+     * @ return A stream of completable futures to images that are being filtered/stored
+     */
     private Stream<CompletableFuture<Optional<Image>>> applyFiltersAsync
-              (CompletableFuture<Optional<Image>> imageFuture) {
+    (CompletableFuture<Optional<Image>> imageFuture) {
         return mFilters
-            // Convert the list of filters to a sequential stream.
-            .stream()
+                // Convert the list of filters to a sequential stream.
+                .stream()
 
-            // Use map() to filter each image asynchronously.
-            .map(filter -> imageFuture
-                 // Asynchronously apply a filter action after the
-                 // previous stage completes.
-                 .thenApplyAsync(imageOpt ->
-                                 imageOpt
-                                 // Create and apply the filter to the
-                                 // image.
-                                 .map(image ->
-                                      makeFilterDecoratorWithImage(filter,
-                                                                   image).run()),
-                                 // Run in the common fork-join pool.
-                                 getExecutor()));
+                // Use map() to filter each image asynchronously.
+                .map(filter -> imageFuture
+                        // Asynchronously apply a filter action after the
+                        // previous stage completes.
+                        .thenApplyAsync(imageOpt ->
+                                        imageOpt
+                                                // Create and apply the filter to the
+                                                // image.
+                                                .map(image ->
+                                                        makeFilterDecoratorWithImage(filter,
+                                                                image).run()),
+                                // Run in the common fork-join pool.
+                                getExecutor()));
     }
 }

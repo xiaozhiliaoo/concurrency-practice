@@ -1,7 +1,6 @@
 package org.example.SearchStreamGang.streamgangs;
 
 
-
 import org.example.SearchStreamGang.utils.Options;
 import org.example.SearchStreamGang.utils.PhraseMatchSpliterator;
 import org.example.SearchStreamGang.utils.RunTimer;
@@ -25,8 +24,7 @@ import static java.util.stream.Collectors.toList;
  * customizes the StreamGang framework to search a list of input
  * Strings for phrases provided in a list of phrases to find.
  */
-public class SearchStreamGang
-       extends StreamGang<CharSequence> {
+public class SearchStreamGang extends StreamGang<CharSequence> {
     /**
      * The list of phrases to find.
      */
@@ -42,7 +40,7 @@ public class SearchStreamGang
      * processing.
      */
     private CountDownLatch mExitBarrier = null;
-        
+
     /**
      * Constructor initializes the fields.
      */
@@ -65,7 +63,7 @@ public class SearchStreamGang
     @Override
     protected List<CharSequence> getNextInput() {
         if (!mInputIterator.hasNext())
-        	return null;
+            return null;
         else {
             // Note that we're starting a new cycle.
             incrementCycle();
@@ -86,8 +84,8 @@ public class SearchStreamGang
 
         // Execute the test and time how long it runs.
         List<List<SearchResults>> results =
-            RunTimer.timeRun(this::processStream,
-                             TAG);
+                RunTimer.timeRun(this::processStream,
+                        TAG);
 
         // Print the results.
         printResults(TAG, results);
@@ -97,7 +95,7 @@ public class SearchStreamGang
             mExitBarrier.countDown();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
-        } 
+        }
     }
 
     /**
@@ -108,7 +106,7 @@ public class SearchStreamGang
     protected void awaitTasksDone() {
         try {
             // Loop for each iteration cycle of input strings.
-            for (;;) {
+            for (; ; ) {
                 // Barrier synchronizer that waits until all the
                 // stream processing in this iteration cycle are done.
                 mExitBarrier.await();
@@ -121,14 +119,14 @@ public class SearchStreamGang
                     initiateStream();
                 else
                     break; // No more input, so we're done.
-            } 
+            }
 
             // Only call the shutdown() and awaitTermination() methods
             // if we've actually got an ExecutorService (as opposed to
             // just an Executor).
             if (getExecutor() instanceof ExecutorService) {
-                ExecutorService executorService = 
-                    (ExecutorService) getExecutor();
+                ExecutorService executorService =
+                        (ExecutorService) getExecutor();
 
                 // Tell the ExecutorService to initiate a graceful
                 // shutdown.
@@ -137,7 +135,7 @@ public class SearchStreamGang
                 // Wait for all the tasks in the Thread pool to
                 // complete.
                 executorService.awaitTermination(Long.MAX_VALUE,
-                                                 TimeUnit.NANOSECONDS);
+                        TimeUnit.NANOSECONDS);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -150,14 +148,14 @@ public class SearchStreamGang
     private void printResults(String test,
                               List<List<SearchResults>> listOfListOfSearchResults) {
         System.out.println(test +
-                           ": The search returned "
-                           + listOfListOfSearchResults.stream()
-                           .mapToInt(list 
-                                     -> list.stream().mapToInt(SearchResults::size).sum())
-                           .sum()
-                           + " phrase matches for "
-                           + getInput().size() 
-                           + " input strings");
+                ": The search returned "
+                + listOfListOfSearchResults.stream()
+                .mapToInt(list
+                        -> list.stream().mapToInt(SearchResults::size).sum())
+                .sum()
+                + " phrase matches for "
+                + getInput().size()
+                + " input strings");
 
         // Print out the titles.
         if (Options.getInstance().isVerbose())
@@ -171,29 +169,29 @@ public class SearchStreamGang
         // Create a map that associates phrases found in the input
         // with the titles where they were found.
         Map<String, List<SearchResults>> resultsMap = listOfListOfSearchResults
-            // Convert the list of lists into a stream of lists.
-            .stream()
+                // Convert the list of lists into a stream of lists.
+                .stream()
 
-            // Flatten the lists into a stream of SearchResults.
-            .flatMap(List::stream)
+                // Flatten the lists into a stream of SearchResults.
+                .flatMap(List::stream)
 
-            // Collect the SearchResults into a TreeMap, which will
-            // sort the keys by their titles.
-            .collect(groupingBy(SearchResults::getTitle,
-                                TreeMap::new,
-                                toList()));
+                // Collect the SearchResults into a TreeMap, which will
+                // sort the keys by their titles.
+                .collect(groupingBy(SearchResults::getTitle,
+                        TreeMap::new,
+                        toList()));
 
         // Print out the results in the map, where each title is first
         // printed followed by a list of the indices where the phrase
         // appeared in the input.
         resultsMap.forEach((key, value)
-                     -> {
-                         System.out.println("Title \""
-                                            + key
-                                            + "\" contained");
-                         // Print out the indicates for this key.
-                         value.forEach(SearchResults::print);
-                     });
+                -> {
+            System.out.println("Title \""
+                    + key
+                    + "\" contained");
+            // Print out the indicates for this key.
+            value.forEach(SearchResults::print);
+        });
     }
 
     /**
@@ -205,26 +203,25 @@ public class SearchStreamGang
                                          String title,
                                          boolean parallel) {
         List<SearchResults.Result> resultList =
-            // Use a PhraseMatchSpliterator to add the indices of all
-            // places in the inputData where phrase matches.
-            StreamSupport
-                // Create a stream of Results to record the indices
-                // (if any) where the phrase matched the input data.
-                .stream(new PhraseMatchSpliterator(input, phrase),
-                        parallel)
-                    
-                // This terminal operation triggers aggregate
-                // operation processing and returns a list of Results.
-                .collect(toList());
+                // Use a PhraseMatchSpliterator to add the indices of all
+                // places in the inputData where phrase matches.
+                StreamSupport
+                        // Create a stream of Results to record the indices
+                        // (if any) where the phrase matched the input data.
+                        .stream(new PhraseMatchSpliterator(input, phrase), parallel)
 
-    	// Create/return SearchResults to keep track of relevant info.
+                        // This terminal operation triggers aggregate
+                        // operation processing and returns a list of Results.
+                        .collect(toList());
+
+        // Create/return SearchResults to keep track of relevant info.
         return new SearchResults(Thread.currentThread().getId(),
-                                 currentCycle(),
-                                 phrase,
-                                 title,
-                                 resultList);
+                currentCycle(),
+                phrase,
+                title,
+                resultList);
     }
-    
+
     /**
      * Return the title portion of the @a input.
      */
@@ -239,8 +236,8 @@ public class SearchStreamGang
 
         // Find/return the first line in the string.
         return m.find()
-            ? m.group()
-            : "";
+                ? m.group()
+                : "";
         /* Could also use
           
         int index = inputData.indexOf('\n');
@@ -255,7 +252,7 @@ public class SearchStreamGang
      */
     protected List<List<SearchResults>> processStream() {
         // No-op by default.
-        return null; 
+        return null;
     }
 
 }

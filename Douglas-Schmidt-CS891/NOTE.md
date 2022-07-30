@@ -1,6 +1,6 @@
 # 课程
 
-## Overview of Java Concurrency
+## 17 Overview of Java Concurrency
 
 Thread（State）
 
@@ -8,7 +8,7 @@ Shared Object(Mutual exclusion，Coordination)
 
 Java Synchronizer: Synchronize Statement/method，Reentrant, Atomic Operation, Semaphore, Condition object, CAS
 
-## Overview of Parallelism in Java
+## 18 Overview of Parallelism in Java
 
 Split/Apply/Combine
 
@@ -22,7 +22,7 @@ Java并行三框架：Parallel Stream（函数式框架），Completable Future�
 
 forkjoin不要阻塞，所以可以和异步结合起来。一个操作，
 
-## A Brief History Of Concurrency in Java
+## 19 A Brief History Of Concurrency in Java
 
 Java1.0 thread,wait,notify,synchronize
 
@@ -34,10 +34,9 @@ tedious to program directly，OO
 
 Javv8：Parallel stream functional and reactive，productivity and performance
 
-## Evaluation of Concurrency and Parallelism
+## 20 Evaluation of Concurrency and Parallelism
 
 Java并发包：1 面向对象的并发设计，面向共享对象（low level classes，框架开发） 2 面向函数式的并行设计，面向数据（high level class，应用开发，CF，RxJava）。
-
 
 ## 72 Overview of Java Parallelism Frameworks
 
@@ -111,7 +110,7 @@ trySplit- partition
 
 ArrayList trySplit tryAdvance
 
-LinkedList trySplit tryAdvance  分割找到mid比较难
+LinkedList trySplit tryAdvance 分割找到mid比较难
 
 ## 89 Java Parallel Stream Internals: Parallel Processing via the Common ForkJoinPool
 
@@ -159,13 +158,68 @@ collect() mutates an existing value.
 
 ## 93 Java Parallel Streams Internals: Combining Results (Part 2)
 
-
 ## 94 Java Parallel Streams Internals: Non-Concurrent and Concurrent Collections (Part 1)
-
 
 ## 96 Java Parallel Streams Internals: Non-Concurrent and Concurrent Collectors (Part 2)
 
+## 98 SearchWithParallelSpliterator Example: PhraseMatchSpliterator and Fields
 
+## 99 SearchWithParallelSpliterator Example: Constructor and tryAdvance()
 
+## 100 SearchWithParallelSpliterator Example: trySplit()
+
+## 101 SearchWithParallelSpliterator Example: Evaluating Pros and Cons
+
+SearchWithParallelSpliterator trySplit方法非常复杂。也是核心方法。
+
+## 102 When to Use Java Parallel Streams
+
+使用：将任务分割成子任务，需要处理所有子任务，需要合并子任务结果。
+
+使用场景： 行为有确认特征：1 独立 2 计算密集型 3 数据源很多元素
+
+NQ模型：N is data elements to process per thread. Q quantifies how CPU-intensive the processing is
+
+## 103 When Not to Use Java Parallel Streams
+
+the source is expensive to split or split unevenly. LinkedList不适合并行流。java.util.LinkedList.LLSpliterator
+
+the startup costs of parallelism overwhelm the amount data（并行性的启动成本超过了数据量）
+
+combining partial results is costly
+
+some streams operations do not sufficiently exploit parallelism（一些流操作没有充分利用并行性）
+
+there are not many/any core
+
+no build-in means to shutdown processing of a parallel stream
+
+## 104 Java Parallel ImageStreamGang Example: Introduction
+
+## 105 Java Parallel ImageStreamGang Example: Structure and Functionality
+
+## 106 Java Parallel ImageStreamGang Example: Visualizing Behaviors
+
+## 107 Java Parallel ImageStreamGang Example: Implementing Behaviors
+
+blocking-io导致上下文切换。
+
+## 108 Java Parallel ImageStreamGang Example: Evaluating Pros and Cons
+
+CF比PS更能编程。比PS更加efficient和scalable。
+
+## 109 Walkthrough of Assignment 3a
+
+## 110 Java Parallel Streams: Evaluating Pros and Cons
+
+有些问题不能被分解为：split-apply-combine，此时不能用PS。
+
+所有PS共享一个common fjp，CF没有这个限制。
+
+ManagedBlocker
+
+CF is more efficient and scalable
+
+## 111 
 
 

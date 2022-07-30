@@ -15,8 +15,7 @@ import java.util.stream.Stream;
  * This implementation strategy customizes ImageStreamGang to use a
  * Java 8 stream to download, process, and store images sequentially.
  */
-public class ImageStreamSequential 
-       extends ImageStreamGang {
+public class ImageStreamSequential extends ImageStreamGang {
     /**
      * Constructor initializes the superclass.
      */
@@ -35,32 +34,32 @@ public class ImageStreamSequential
         List<URL> urls = getInput();
 
         List<Image> filteredImages = urls
-            // Convert the URLs in the input list into a stream and
-            // process them sequentially.
-            .stream()
+                // Convert the URLs in the input list into a stream and
+                // process them sequentially.
+                .stream()
 
-            // Use filter() to ignore URLs that are already cached locally,
-            // i.e., only download non-cached images.
-            .filter(StreamsUtils.not(this::urlCached))
+                // Use filter() to ignore URLs that are already cached locally,
+                // i.e., only download non-cached images.
+                .filter(StreamsUtils.not(this::urlCached))
 
-            // Use map() to transform each URL to an image (i.e.,
-            // synchronously download each image via its URL).
-            .map(this::downloadImage)
+                // Use map() to transform each URL to an image (i.e.,
+                // synchronously download each image via its URL).
+                .map(this::downloadImage)
 
-            // Use flatMap() to create a stream containing multiple
-            // filtered versions of each image.
-            .flatMap(this::applyFilters)
+                // Use flatMap() to create a stream containing multiple
+                // filtered versions of each image.
+                .flatMap(this::applyFilters)
 
-            // Terminate the stream and collect the results into
-            // list of images.
-            .collect(toList());
+                // Terminate the stream and collect the results into
+                // list of images.
+                .collect(toList());
 
         System.out.println(TAG
-                           + ": processing of "
-                           + filteredImages.size()
-                           + " image(s) from "
-                           + urls.size() 
-                           + " urls is complete");
+                + ": processing of "
+                + filteredImages.size()
+                + " image(s) from "
+                + urls.size()
+                + " urls is complete");
     }
 
     /**
@@ -68,14 +67,14 @@ public class ImageStreamSequential
      */
     private Stream<Image> applyFilters(Image image) {
         return mFilters
-            // Iterate through the list of image filters sequentially and
-            // apply each one to the image.
-            .stream()
+                // Iterate through the list of image filters sequentially and
+                // apply each one to the image.
+                .stream()
 
-            // Use map() to create an OutputFilterDecorator for each
-            // image and run it to filter each image and store it in an
-            // output file.
-            .map(filter -> 
-                 makeFilterDecoratorWithImage(filter, image).run());
+                // Use map() to create an OutputFilterDecorator for each
+                // image and run it to filter each image and store it in an
+                // output file.
+                .map(filter ->
+                        makeFilterDecoratorWithImage(filter, image).run());
     }
 }

@@ -7,13 +7,13 @@ import java.util.regex.Pattern;
 
 
 /**
+ * 短语匹配分割器
  * This class is used in conjunction with StreamSupport.stream() to
  * create a stream of SearchResults.Result objects that match the
  * number of times a phrase appears in an input string.  The
  * comparison is case-insensitive.
  */
-public class PhraseMatchSpliterator
-       implements Spliterator<SearchResults.Result> {
+public class PhraseMatchSpliterator implements Spliterator<SearchResults.Result> {
     /**
      * The input string.
      */
@@ -48,42 +48,41 @@ public class PhraseMatchSpliterator
     /**
      * Constructor initializes the fields.
      */
-    public PhraseMatchSpliterator(CharSequence input,
-                                  String phrase) {
+    public PhraseMatchSpliterator(CharSequence input, String phrase) {
         // Transform the phrase parameter to a regular expression.
         mPhrase = phrase;
-        
+
         // Create a regex that will match the phrase across lines.
-        String regexPhrase = 
-            // Start with a word boundary.
-            "\\b"
-            + phrase
-            // Remove leading/trailing whitespace.
-            .trim()
-            // Replace multiple spaces with one whitespace boundary
-            // expression and delimit words.
-            .replaceAll("\\s+", "\\\\b\\\\s+\\\\b")
-            // End with a word boundary.
-            + "\\b";
+        String regexPhrase =
+                // Start with a word boundary.
+                "\\b"
+                        + phrase
+                        // Remove leading/trailing whitespace.
+                        .trim()
+                        // Replace multiple spaces with one whitespace boundary
+                        // expression and delimit words.
+                        .replaceAll("\\s+", "\\\\b\\\\s+\\\\b")
+                        // End with a word boundary.
+                        + "\\b";
 
         regexPhrase = regexPhrase
-            // Move various punctations so they aren't considered part
-            // of a word.
-            .replace("?\\b", "\\b?")
-            .replace(".\\b", "\\b.")
-            .replace(",\\b", "\\b,")
-            .replace("!\\b", "\\b!")
-            .replace(";\\b", "\\b;")
-            .replace("-\\b", "\\b-")
-            .replace("\\b'", "'\\b")
-            // Quote any question marks to avoid problems.
-            .replace("?", "\\?");
+                // Move various punctations so they aren't considered part
+                // of a word.
+                .replace("?\\b", "\\b?")
+                .replace(".\\b", "\\b.")
+                .replace(",\\b", "\\b,")
+                .replace("!\\b", "\\b!")
+                .replace(";\\b", "\\b;")
+                .replace("-\\b", "\\b-")
+                .replace("\\b'", "'\\b")
+                // Quote any question marks to avoid problems.
+                .replace("?", "\\?");
 
         // System.out.println("regex phrase = " + regexPhrase);
 
         // Ignore case and search for phrases that split across lines.
         mPattern = Pattern.compile(regexPhrase,
-                                   Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+                Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
         // Create a regex matcher.
         mPhraseMatcher = mPattern.matcher(input);
@@ -165,19 +164,19 @@ public class PhraseMatchSpliterator
      * the split position {@code splitPos).
      *
      * @return The position in the input string to start determining
-     *         of a phrase spans the split position or -1 if the phrase is too
-     *         long for the input string
+     * of a phrase spans the split position or -1 if the phrase is too
+     * long for the input string
      */
     private int computeStartPos(int splitPos) {
         // Length of the phrase in non-regex characters.
         int phraseLength = mPhrase.length();
-        
+
         // Subtract the phrase length so we can check to make sure the
         // phrase doesn't span across splitPos.
         int startPos = splitPos - phraseLength;
 
         // Check if phrase is too long for this input segment.
-        if (startPos < 0 || phraseLength > splitPos) 
+        if (startPos < 0 || phraseLength > splitPos)
             return -1;
         else
             return startPos;
@@ -197,20 +196,16 @@ public class PhraseMatchSpliterator
 
         // Create a substring to check for the case where a phrase
         // spans across the initial splitPos.
-        CharSequence substr =
-            mInput.subSequence(startPos,
-                               endPos);
+        CharSequence substr = mInput.subSequence(startPos, endPos);
 
         // Create a pattern matcher for the substring.
         Matcher phraseMatcher = mPattern.matcher(substr);
 
         // Check to see if the phrase matches within the substring.
-        if (phraseMatcher.find()) 
+        if (phraseMatcher.find())
             // If there's a match update the splitPos to account for
             // the phrase that spans newlines.
-            splitPos = startPos 
-                + phraseMatcher.start() 
-                + phraseMatcher.group().length();
+            splitPos = startPos + phraseMatcher.start() + phraseMatcher.group().length();
 
         return splitPos;
     }
@@ -234,11 +229,11 @@ public class PhraseMatchSpliterator
         // Create a new Spliterator that handles the "left hand"
         // portion of the input.
         Spliterator<SearchResults.Result> leftHalfSpliterator =
-            new PhraseMatchSpliterator(leftHandSide,
-                                       mPhrase,
-                                       mPattern,
-                                       mMinSplitSize,
-                                       mOffset);
+                new PhraseMatchSpliterator(leftHandSide,
+                        mPhrase,
+                        mPattern,
+                        mMinSplitSize,
+                        mOffset);
 
         // Update the offset.
         mOffset += splitPos;

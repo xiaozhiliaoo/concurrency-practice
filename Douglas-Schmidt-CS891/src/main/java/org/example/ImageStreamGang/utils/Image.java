@@ -12,8 +12,7 @@ import java.net.URL;
  * decoding raw byte arrays into an Image and setting/getting filter
  * and file names.
  */
-public class Image
-        extends ImageBase {
+public class Image extends ImageBase {
     /**
      * The source URL from which the result was downloaded.
      */
