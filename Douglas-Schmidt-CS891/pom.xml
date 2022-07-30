@@ -31,6 +31,13 @@
             <artifactId>junit-jupiter</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.15.2</version>
+        </dependency>
+
+
 
 
     </dependencies>
@@ -45,8 +52,8 @@
                 <version>3.5.1</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>9</source>
+                    <target>9</target>
                     <debug>true</debug>
                     <optimize>true</optimize>
                 </configuration>

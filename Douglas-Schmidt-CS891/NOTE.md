@@ -141,6 +141,29 @@ work-steal平衡处理速度。为了线程一直在运行。
 
 ## 91 Java Parallel Streams Internals: Configuring the Common Fork-Join Pool
 
+并行流使用所有核，甚至会使用main线程
+
+并行流中使用阻塞操作会有问题，如下载10张图片，但是只有4个线程，那么线程会阻塞住，cpu利用率很低。其他6个线程应该去下载，但是由于线程数是固定的。
+
+线程阻塞在io，并且没有更多线程了，cp利用率很低。
+
+System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", numberOfDownloads)
+
+ManagedBlocker add worker threads. 只能用在fjp.而不是并行流。
+
+## 92 Java Parallel Streams Internals: Combining Results (Part 1)
+
+reduce() create new immutable value.
+
+collect() mutates an existing value.
+
+## 93 Java Parallel Streams Internals: Combining Results (Part 2)
+
+
+## 94 Java Parallel Streams Internals: Non-Concurrent and Concurrent Collections (Part 1)
+
+
+## 96 Java Parallel Streams Internals: Non-Concurrent and Concurrent Collectors (Part 2)
 
 
 
