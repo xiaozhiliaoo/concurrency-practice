@@ -220,6 +220,31 @@ ManagedBlocker
 
 CF is more efficient and scalable
 
-## 111 
+## 111 The Java Fork-Join Pool: Introduction
+
+解决并行任务类型是：分治。divide and conquer。子任务并行处理。
+
+## 112 The Java Fork-Join Pool: Structure and Functionality (Part 1)
+
+很多task 很少worker线程，cpu一直运行。
+
+fork()类似于Thread.start()。join()类似于Thread.join()。
+
+fork()返回值还是ForkJoinTask<V>。join()返回值是V
+
+## 113 The Java Fork-Join Pool: Structure and Functionality (Part 2)
+
+RecursiveAction：无返回值
+
+RecursiveTask：有返回值
+
+CountedCompleter：used for computations in which completed actions trigger other actions：用于已完成动作触发其他动作的计算
+
+ForkJoinPool的Api很少，自定义控制粒度很少，但是ThreadPoolExecutor Api很多，控制粒度很细。
+
+
+
+
+
 
 

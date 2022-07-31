@@ -1,0 +1,59 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+interface Executor
+interface ExecutorService
+abstract class AbstractExecutorService
+class ForkJoinPool
+class ThreadPoolExecutor
+class ScheduledThreadPoolExecutor
+class Thread
+interface Runnable
+interface Callable
+interface Future
+class FutureTask
+abstract class ForkJoinTask
+class ScheduledFutureTask
+class CountedCompleter
+class RecursiveAction
+class RecursiveTask
+class CompletableFuture
+class AsynchronousCompletionTask
+interface Supplier
+interface Consumer
+interface Function
+
+Executor <|-- ExecutorService
+
+ExecutorService <|-- AbstractExecutorService
+
+AbstractExecutorService <|-- ForkJoinPool
+
+AbstractExecutorService <|-- ThreadPoolExecutor
+
+ThreadPoolExecutor <|-- ScheduledThreadPoolExecutor
+
+Future <|-- FutureTask
+
+FutureTask <|-- ScheduledFutureTask
+
+ForkJoinTask <|-- CountedCompleter
+
+ForkJoinTask <|-- RecursiveAction
+
+ForkJoinTask <|-- RecursiveTask
+
+ThreadPoolExecutor -- FutureTask
+
+ScheduledThreadPoolExecutor -- ScheduledFutureTask
+
+
+ForkJoinPool -- ForkJoinTask
+
+CompletableFuture -- AsynchronousCompletionTask
+CompletableFuture -- Supplier
+CompletableFuture -- Consumer
+CompletableFuture -- Function
+
+@enduml
