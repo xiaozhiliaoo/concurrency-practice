@@ -30,6 +30,7 @@
         <module>Concurrency-State-Models</module>
         <!--黄文海《Java多线程编程实战指南》设计模式篇  包名重新组织了下 源代码包名太长 -->
         <module>javamtp</module>
+        <module>parallel-functional-sample</module>
     </modules>
 
 

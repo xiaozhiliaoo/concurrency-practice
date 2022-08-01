@@ -242,6 +242,44 @@ CountedCompleter：used for computations in which completed actions trigger othe
 
 ForkJoinPool的Api很少，自定义控制粒度很少，但是ThreadPoolExecutor Api很多，控制粒度很细。
 
+## 114 The Java Fork-Join Pool: Key Methods in ForkJoinPool
+
+非fj client，提交的是AbstractExecutorService submit,execute.
+
+invoke是fj client.
+
+## 115 The Java Fork-Join Pool: Key Methods in ForkJoinTask
+
+非fj client插入到共享队列。fj client插入到workqueue。
+
+## 116 The Java Fork-Join Pool: Key Methods in RecursiveAction and RecursiveTask
+
+RecursiveTask继承了ForkJoinTask，很多方法继承了。
+
+## 117 The Java Fork-Join Pool: Worker Threads
+
+WorkerThread run a loop scan for task(sub) to execute. keep WorkerThread busy.
+
+fork插入deque队头。LIFO顺序。 join的时候从deque队头出。为了性能，data cache，局部性原理。locality of reference.
+
+如果插入队尾，每次从头拿，会不会头部忽略？work steal保证不会出现这种情况。
+
+## 118 The Java Fork-Join Pool: Work Stealing
+
+common-pool用于全局资源管理情况会比较好。
+
+work-stealing随机选择一个deque。
+
+Task are stolen in FIFO order. Task are execute in FILO order.
+
+push pop 只被workerthread调用。
+
+poll 只被steal workerthread调用。
+
+offer/poll源自队列（先进先出 => 尾进头出），所以添加到队尾，从队头删除；
+push/pop源自栈（先进后出 => 头进头出），所以添加到队头，从队头删除；
+
+## 119 The Java Fork-Join Pool: Overview of the Common Fork-Join Pool
 
 
 
