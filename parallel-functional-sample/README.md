@@ -2,8 +2,8 @@
 
 ## Date
 
-2022-08-03
+**2022-08-03**
 
-## Slides
+## Slide
 
-[Slide:Parallel-Functional-Programming-with-Java.pdf](https://github.com/xiaozhiliaoo/my-slides/blob/master/Parallel-Functional-Programming-with-Java.pdf)
+[Parallel-Functional-Programming-with-Java.pdf](https://github.com/xiaozhiliaoo/my-slides/blob/master/Parallel-Functional-Programming-with-Java.pdf)
