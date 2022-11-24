@@ -1,6 +1,6 @@
-# concurrency-practice
+# Concurrency Practice
 
-Java并发学习
+Java并发学习与实践。
 
 这是Java并发研究的书籍和示例集合，还有源码姊妹篇源码分析集合。研究基于**操作系统层，语言层，应用层**。
 
@@ -10,7 +10,7 @@ Java并发学习
 
 **应用层**主要是仓库示例。
 
-## 目录说明
+## 项目目录说明
 
 [artconcurrency](/artconcurrency)是书籍方腾飞《Java并发编程艺术》代码学习。
 
@@ -49,5 +49,9 @@ Java并发学习
 ## Wikipedia
 
 [百科](./wikipedia)
+
+## 我的Slides
+
+[Slides](./slides)
 
 ## Other
